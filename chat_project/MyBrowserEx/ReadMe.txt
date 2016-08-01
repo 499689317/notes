@@ -1,1 +1,0 @@
-这是一个通过WinInet API实现的HTTP客户实例
