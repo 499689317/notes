@@ -1,0 +1,66 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: MyBrowserEx - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/MyBrowserEx.res" /d "_DEBUG" /d "_AFXDLL" "C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\MyBrowserEx.rc"" 
+Creating temporary file "C:\Users\shao\AppData\Local\Temp\RSP4B1C.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/MyBrowserEx.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\shao\Desktop\sample\MyBrowserEx\ithread.cpp"
+"C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\MainFrm.cpp"
+"C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\MyBrowserEx.cpp"
+"C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\MyBrowserExDoc.cpp"
+"C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\MyBrowserExView.cpp"
+"C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\ProxyDlg.cpp"
+]
+Creating command line "cl.exe @C:\Users\shao\AppData\Local\Temp\RSP4B1C.tmp" 
+Creating temporary file "C:\Users\shao\AppData\Local\Temp\RSP4B1D.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/MyBrowserEx.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Users\shao\Desktop\VC网络高级编程源代码\第三章\MyBrowserEx\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\Users\shao\AppData\Local\Temp\RSP4B1D.tmp" 
+Creating temporary file "C:\Users\shao\AppData\Local\Temp\RSP4B2E.tmp" with contents
+[
+Wininet.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/MyBrowserEx.pdb" /debug /machine:I386 /out:"Debug/MyBrowserEx.exe" /pdbtype:sept 
+".\Debug\ithread.obj"
+".\Debug\MainFrm.obj"
+".\Debug\MyBrowserEx.obj"
+".\Debug\MyBrowserExDoc.obj"
+".\Debug\MyBrowserExView.obj"
+".\Debug\ProxyDlg.obj"
+".\Debug\StdAfx.obj"
+".\Debug\MyBrowserEx.res"
+]
+Creating command line "link.exe @C:\Users\shao\AppData\Local\Temp\RSP4B2E.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+ithread.cpp
+fatal error C1083: Cannot open source file: 'C:\Users\shao\Desktop\sample\MyBrowserEx\ithread.cpp': No such file or directory
+MainFrm.cpp
+MyBrowserEx.cpp
+MyBrowserExDoc.cpp
+MyBrowserExView.cpp
+ProxyDlg.cpp
+Generating Code...
+执行 cl.exe 时出错.
+Creating command line "bscmake.exe /nologo /o"Debug/MyBrowserEx.bsc"  ".\Debug\StdAfx.sbr" ".\Debug\ithread.sbr" ".\Debug\MainFrm.sbr" ".\Debug\MyBrowserEx.sbr" ".\Debug\MyBrowserExDoc.sbr" ".\Debug\MyBrowserExView.sbr" ".\Debug\ProxyDlg.sbr""
+Creating browse info file...
+BSCMAKE: error BK1506 : cannot open file '.\Debug\ithread.sbr': No such file or directory
+执行 bscmake.exe 时出错.
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+MyBrowserEx.exe - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

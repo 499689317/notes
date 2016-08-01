@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>切9宫图</title>
+	<link rel="stylesheet" href="resource/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap-theme.min.css"> -->
+    <script src="resource/js/avalon.modern.js">
+    </script>
+    <script src="resource/js/jquery-2.1.1.min.js">
+    </script>
+    <script src="resource/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript" src="resource/js/public.js">
+    </script>
+
+    <script type="text/javascript">
+        // var URL = "http://123.56.157.13:3901/api/import/import";
+        avalon.config({loader: false})
+    </script>
+	<style type="text/css">
+	html,body{height: 100%;}
+	.dropfile{
+		width: 80%;height: 100%;background-color: #eee;
+		position: relative;float: left;
+	}
+	.dropfile:after{
+		content: "把图拖到这里~";
+		position:absolute;left: 50%;top: 50%;z-index: 1;
+		width: 100px;text-align: center;
+		transform: translate(-50%, -50%);
+	}
+	.canvas{
+		position:absolute;left: 50%;top: 50%;z-index: 2;
+		transform: translate(-50%, -50%);
+	}
+	</style>
+</head>
+<body>
+	<div class="dropfile">
+		<canvas class="canvas">
+		</canvas>
+	</div>
+		
+	<div ms-controller='margin'>
+		<table>
+			<tr>
+				<th>上下边距</th>
+				<td><input type="number" ms-duplex='top'></td>
+			</tr>
+			<tr>
+				<th>左右边距</th>
+				<td><input type="number" ms-duplex='left'></td>
+			</tr>
+		</table>
+
+		
+		<canvas class="aa"></canvas>
+
+		<button ms-on-click='$save()'>保存</button>
+	</div>
+<script type="text/javascript">
+
+	var img = new Image();
+	img.onload = function () {
+		render();
+	}
+
+	var dropfile = document.querySelector(".dropfile");
+	new DropFile(dropfile, function (e) {
+		var dt = e.dataTransfer;    
+        var files = dt.files;  
+        if(files.length)  {
+			var file = files[0]; 
+
+			var reader = new FileReader();  
+			reader.onload = function()  {  
+				img.src = this.result;
+			};  
+			reader.readAsDataURL(file);  
+        }
+	});
+
+	var canvas = document.querySelector(".canvas");
+	var ctx = canvas.getContext("2d");
+	function render () {
+		canvas.width = img.width;
+		canvas.height = img.height;
+		canvas.style.width = img.width + "px";
+		canvas.style.height = img.height + "px";
+		ctx.save();
+		ctx.drawImage(img, 0, 0);
+		// 画线
+		ctx.strokeStyle = "red";
+		drawHorizonLine(model.top, img.width);
+		drawHorizonLine(img.height - model.top, img.width);
+		drawVeticalLine(model.left, img.height);
+		drawVeticalLine(img.width - model.left, img.height);
+
+
+		ctx.restore();
+
+		renderPreview();
+	}
+
+	function drawHorizonLine (y, width) {
+		ctx.beginPath();
+		ctx.moveTo(0, y);
+		ctx.lineTo(width, y);
+		ctx.stroke();
+		ctx.closePath();
+	}
+
+	function drawVeticalLine (x, height) {
+		ctx.beginPath();
+		ctx.moveTo(x, 0);
+		ctx.lineTo(x, height);
+		ctx.stroke();
+		ctx.closePath();
+	}
+
+	function renderPreview () {
+		var tmpCanvas = document.querySelector(".aa");
+		tmpCanvas.width = model.top * 3;
+		tmpCanvas.height = model.left * 3;
+		var ctx = tmpCanvas.getContext('2d');
+		tmpCanvas.width = tmpCanvas.width;
+		for (var i = 0; i < 3; i++) {
+			var left = i === 2 ? (img.width - model.left) : model.left * i;
+			for (var j = 0; j < 3; j++) {
+				var top = j === 2 ? (img.height - model.top) : model.top * j;
+				ctx.drawImage(img, left, top, model.left, model.top,
+							       model.left * i, model.top * j, model.left, model.top)		
+			};
+		};
+	}
+
+	function downloadFile (type, filename, filecon) {
+		filename = prompt('填写保存的名字', filename);
+		var blob = new Blob([filecon], { type: type });
+		var url = window.webkitURL.createObjectURL(blob);
+		var a = document.createElement("a");
+		a.download = filename;
+		a.href = url;
+		a.click();
+	}
+
+	var model = avalon.define({
+		$id: "margin",
+		top: 10,
+		left: 10,
+		$save: function () {
+			var tmpCanvas = document.createElement("canvas");
+			var data = atob( tmpCanvas.toDataURL( "image/png" ).substring( "data:image/png;base64,".length ) )
+			var arr = new Uint8Array(data.length);
+			for (var i = 0; i < arr.length; i++) {
+				arr[i] = data.charCodeAt(i);
+			};
+
+			downloadFile('text/image;charset=UTF-8', 'aa.png', arr)
+			
+		}
+	});
+
+	model.$watch("top", render)
+	model.$watch("right", render)
+	model.$watch("bottom", render)
+	model.$watch("left", render)
+
+	avalon.scan();
+
+
+
+
+</script>
+
+</body>
+</html>

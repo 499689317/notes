@@ -1,0 +1,611 @@
+
+///////////////
+// 2015/10/28
+///////////////
+1.web上的视频
+在web上直到今天大多数视频(音频)都是通过插件(如：Flash)来显示的
+2.h5提供了两种在客户端丰储数据的新方法：
+	localStorage---没有时间限制的数据存储
+	sessionStorage-针对一个sessionStorage的数据存储
+之前这些都是由cookie完成的，但是cookie不适合大量数据的存储，因为它们由每个对服务器的请求来传递，这使得cookie速度很慢而且效率也不高
+h5使用JavaScript来存储和访问数据
+localStorage方法存储的数据没有时间限制，不会过期
+sessionStorage方法存储数据当用户流览器关闭后，数据会被删除
+3.h5使用应用程序缓存(Application Cache)
+	1.离线流览-用户可在应用离线时使用它们
+	2.速度-已缓存资源加载得更快
+	3.减少服务器负载-浏览器将只从服务器下载更新过或理改过的资源
+<html mainfest="/缓存文件"-----mainfest文件的建议文件扩展名是：.appcache
+mainfest文件需要配置正确的MIME-type,"text/cache-mainfest",必须在web服务器上进行配置
+
+//////////////
+// 2015/10/29
+//////////////
+dom与css与js互相操作
+dom:---css
+	document
+js:getElementById()
+
+//////////////
+// 2015/10/30
+//////////////
+1.在h5中定义样式有3种方式：
+	1.通过<link/>元素包含外部样式表文件
+	2.使用<style/>元素定义嵌入式样式
+	3.使用style特性定义针对特定元素的样式
+
+//////////////
+// css基础
+//////////////
+//2015/10/27
+1.样式通常保存在外部的.css文件中，通过公公编辑css文档，外部样式表使你有能力同时改变站点中所有的页面布局和外观。
+2.样式优先权：
+	1.浏览器缺省设置
+	2.外部样式表
+	3.内部样式表(位于<head>标签内部)
+	4.内联样式(在HTML元素内部，优先权最高)
+3.选择器(selector)---HTML元素
+	selector{property:value;....}
+	//这里要对每一个选择器的属性熟记---每一个属性所对应的改变
+	selector1,selector2......{property:value;....}//选择器可以分组用逗号分开
+	样式继承：子元素会遵循父元素的样式--如果特别子元素不想遵循，抽出来单独写
+4.id选择器(#id{property:value;......}----意味着每一个HTML元素都有一个id属性
+	派生性------可拓展
+5.类选择器(.class{property:value;.....}---意味着每一个HTML元素都有一个class属性)
+	派生性------可拓展
+6.属性选择器(不仅局限于class和id属性)
+	---只有规定了!DOCTYPE时，IE7和IE8才支持属性选择器---IE6及更低版本不支持属性选择
+	[属性名]{property:value;.....}
+	属性选择器对不带有class与id属性的表单设置样式非常有用
+7.创建css
+	1.外部样式表：
+		在文档的头部<head></head>内部使用<link>标签链接到样式表
+		.css文件中不能包含任何html标签
+	2.内部样式表：
+		当单个文档需要特殊样式时，就应该使用内部样式表
+		使用<style>标签在文档头部<head></head>定义内部样式表
+	3.内联样式
+		在相关标签内使用(style)属性，style属性可以包含任何css属性
+
+
+
+----模型样式----
+
+1.背景(background)
+background-color:colorvalue背景颜色
+2.文本(text)
+text-
+letter-
+3.字体(font)
+font-
+4.链接()
+a:link/*未被访问的链接*/
+a:visited/*已访问的链接*/
+a:hover/*鼠标指针位于链接上方*/
+a:active/*链接被点击*/
+/*a:hover必须位于a:link和a:visited之后
+  a:active必须位于a:hover之后*/
+5.列表(list-style)
+6.表格(table)
+7.轮廓(outline)
+
+
+-------框模型---------
+框模型概念：
+	-----------------------------
+	-         padding(内边距)   -
+	-      -------------        -
+	-      -           -        -
+	-      - element   -        -
+	-      -           -        -
+	-      -           -        -
+	-      -------------        -
+	-                           -
+	-----------------------------
+element:元素
+padding:内边距(填充)非负值，顺时针设置
+border:边框(制作表格)
+margin:外边距(空白)可负值，外边框合并可减少占用空间
+
+
+---------选择器-----------
+最常见的css选择器是HTML/XML元素选择器，文档元素是最基本的选择器
+
+在HTML类选择器中，一个class值可能包含一个词列表，各词用空格分隔
+与类选择器不同，ID选择器会使用一次，而且仅一次
+
+----------css3---------------
+通过css3过渡，我们可以不使用Flash动画或JavaScript的情况下，当无素从一种样式变换为另一种样式时为元素添加效果
+要实现这一点，必须规定两项内容：
+1.规定你希望把效果添加到哪一个css属性上
+2.规定效果的时长
+
+////////////////////////
+// 
+////////////////////////
+//判断浏览器是否启用cookie
+　　if(!(navigator.cookieEnabled))alert("检测到您的浏览器禁用了cookie,将会影响到您的体验。请取消cookie的限制再浏览本站点!!");
+　　//偷懒用...document.getElementById和docuemnt.createElement太长...
+　　//没有使用 var el=document.getElementById;是因为(好像是)firefox中有问题.
+　　var el=function(id){return document.getElementById(id)};
+　　var create=function(name){return document.createElement(name);};
+　　//获取字符串字节长度
+　　function getlen(va){return va.replace(/[^\x00-\xff]/g,"rr").length;}
+　　//去空格
+　　String.prototype.trim = function(){return this.replace(/(^\s*)|(\s*$)/g, "");}
+
+　　//对C#中StringBuilder的一个模拟,书上看来的,只实现了添加和tostring.添加使用add不用append是为了少打几个字母..
+　　function StringBuilder(str){this.s=new Array();if(str)this.s[this.s.length]=str;}
+　　StringBuilder.prototype.tostring=function(){return this.s.join('');}
+　　StringBuilder.prototype.add=function(s){if(s)this.s[this.s.length]=s;};
+
+
+//在firefox中添加innerText,outerHTMLs
+if(!window.ActiveXObject)
+{
+    HTMLElement.prototype.__defineGetter__("innerText",function(){
+        var anyString = "";
+        var childS = this.childNodes;
+        for(var i=0; i<childS.length; i++)
+        {
+            if(childS[i].nodeType==1)
+                anyString += childS[i].innerText;
+            else if(childS[i].nodeType==3)
+                anyString += childS[i].nodeValue;
+        }
+        return anyString;
+    }); 
+    HTMLElement.prototype.__defineSetter__("innerText",function(sText){this.textContent=sText;}); 
+    HTMLElement.prototype.__defineGetter__("outerHTML",function() 
+    { 
+        var a=this.attributes, str="<"+this.tagName, i=0;for(;i<a.length;i++) 
+        if(a[i].specified) 
+            str+=" "+a[i].name+'="'+a[i].value+'"'; 
+        if(!this.canHaveChildren) 
+            return str+" />"; 
+        return str+">"+this.innerHTML+"</"+this.tagName+">"; 
+    }); 
+    HTMLElement.prototype.__defineSetter__("outerHTML",function(s) 
+    { 
+        var r = this.ownerDocument.createRange(); 
+        r.setStartBefore(this); 
+        var df = r.createContextualFragment(s); 
+        this.parentNode.replaceChild(df, this); 
+        return s; 
+    }); 
+}
+
+//XML读取操作
+//obj为ajax请求返回的xml对象,this.o表示为当前操作的节点
+function xmlreader(obj){
+    if(obj)this.o=obj;
+};
+//获取当前操作的节点下的对应节点
+xmlreader.prototype.e=function(name){
+    if(this.o)return this.o.getElementsByTagName(name);else return new Array();
+};
+//读取obj这个节点的值
+xmlreader.prototype.v=function(obj){
+    try{return obj.firstChild.nodeValue;}catch(e){return "";}
+};
+//将obj设置为当前操作的节点
+xmlreader.prototype.bind=function(obj){
+    this.o=obj;
+};
+//获取操作节点下对应tag的第一个节点的值
+xmlreader.prototype.gv=function(name){
+    var obj=this.e(name);
+    if(obj){return this.v(this.e(name)[0]);}else{return "";}
+};
+
+//添加事件
+function addEventHandler(oTarget, sEventType, fnHandler) {
+　　if (oTarget.addEventListener) {oTarget.addEventListener(sEventType, fnHandler, false);}
+　　else if (oTarget.attachEvent) {oTarget.attachEvent("on" + sEventType, fnHandler);}
+　　else {oTarget["on" + sEventType] = fnHandler;}
+}
+//删除事件
+function removeEventHandler(oTarget, sEventType, fnHandler) {
+　　if (oTarget.removeEventListener){oTarget.removeEventListener(sEventType, fnHandler, false);}
+　　else if (oTarget.detachEvent) {oTarget.detachEvent("on" + sEventType, fnHandler);}
+　　else {oTarget["on" + sEventType] = null;}
+}
+
+//获取页面元素的绝对位置
+function getTop(e){ 
+　　var offset=e.offsetTop;
+　　if(e.offsetParent!=null) offset+=getTop(e.offsetParent); 
+　　return offset; 
+} 
+function getLeft(e){ 
+　　var offset=e.offsetLeft; 
+　　if(e.offsetParent!=null) offset+=getLeft(e.offsetParent); 
+　　return offset; 
+}
+
+//实例化XMLHTTPRequest--copy过来的..
+function createXMLHTTPRequest(){var request;if(window.ActiveXObject){var activekey = new Array("MSXML2.XMLHTTP.5.0","MSXML2.XMLHTTP.4.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP");
+for(var i=0 ; i < activekey.length ; i++){try{request = new ActiveXObject(activekey[i]);}catch(ex){continue;}
+if(request != null)return request;}}else{try{request = new XMLHttpRequest();return request;}catch(ex){alert('xmlhttprequest实例化异常);}}}
+var xmlhttp = createXMLHTTPRequest();
+
+//get方法发送ajax请求,使用此方法可同时发送多个请求,arg为传给处理请求的方法的参数,如果不需要参数在调用时可以省略
+//后面弹出错误码的部分在开发结束后可以去掉
+function xmlhttpSend(url,handler,arg){
+　　var xhr=createXMLHTTPRequest();
+　　xhr.open("get",url,true);
+　　xhr.onreadystatechange=function(){
+　　　　if(xhr.readyState==4)
+　　　　　　if(xhr.status==200||xhr.status==0){
+　　　　　　　　handler(xhr,arg);
+　　　　　　}
+　　　　　　else{
+　　　　　　　　if(arg&&arg["error"])　　//如需调用自定义的错误处理方法,可在arg中传入,在这里调用
+　　　　　　　　　　arg.error(xhr,arg);
+　　　　　　　　else
+　　　　　　　　　　alert("错误码:"+xhr.status);//一般来说,500为服务端程序错误
+　　　　　　}
+　　}
+　　xhr.send(null);
+}
+
+//发送表单的ajax方法 此方法可多并发,可传递参数.
+//后面弹出错误码的部分在开发结束后可以去掉
+function xmlhttpFormSend(url,handler,form,arg){
+　　var xhr=createXMLHTTPRequest();
+　　xhr.open("post",url,true);
+　　xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+　　xhr.onreadystatechange=function(){
+　　　　if(xhr.readyState==4){
+　　　　　　if(xhr.status==200||xhr.status==0){
+　　　　　　　　handler(xhr,arg);
+　　　　　　}
+　　　　　　else{
+　　　　　　　　//如需错误处理,可按xmlhttpSend方法中方式处理
+　　　　　　　　alert('错误码:'+xhr.status);
+　　　　　　}
+　　　　}
+　　}
+　　if(form.form)form=form.form();
+　　xhr.send(form);
+}
+
+//这里2个类都是为了拼ajax请求的链接或表单的时候能够偷懒.
+//构建url的类,调用 var u=new ajaxurl("a.aspx");u.add("b",[value]);...
+var ajaxurl=function(url){this.u=new StringBuilder(url);this.arr=new Array();this.first=true;};
+//为url添加参数
+ajaxurl.prototype.add=function(name,value){
+    if(this.first){
+        this.u.add("?");
+        this.first=false;
+    }
+    else{
+        this.u.add("&");
+    }
+    this.u.add(name);this.u.add("=");this.u.add(encodeURIComponent(value));
+}
+//返回拼接好的url
+ajaxurl.prototype.url=function(){
+    return this.u.tostring();
+}
+//构建表单的类
+var ajaxform=function(){this.f=new StringBuilder();this.first=true;}
+//添加参数
+ajaxform.prototype.add=function(name,value){
+    if(this.first){this.first=false;}
+    else{
+        this.f.add("&");
+    }
+    this.f.add(name);this.f.add("=");this.f.add(encodeURIComponent(value));
+}
+//返回最终表单
+ajaxform.prototype.form=function(){return this.f.tostring();}
+
+//只允许输入数字,不能使用ctrl键,使用时在对应文本框加入onkeydown='valNum(event);'
+function valNum(ev)
+{var e = ev.keyCode;
+if(e != 48 && e != 49 && e != 50 && e != 51 && e != 52 && e != 53 && e != 54 && e != 55 && e != 56 && e != 57 && e != 96 && e != 97 && e != 98 && e != 99 && e != 100 && e != 101 && e != 102 && e != 103 && e != 104 && e != 105 && e != 37 && e != 39 && e != 13 && e != 8 && e != 46 && e != 9)
+{ev.returnValue = "";}
+if(ev.ctrlKey){ev.returnValue="";}}
+
+//拖动层,调用d_move.readpoint方法即可,传入要拖动层的ID及事件对象
+//目前兼容各浏览器
+var d_move={
+    dx:null,dy:null,ex:null,ey:null,ism:false,div:null,d_left:null,d_top:null,sl:null,st:null,mb:null,mr:null,
+    //id为要拖动的对象的ID,ev为事件对象,拖动的前提是对象的样式中position须为absolute
+    readpoint:function(id,ev){
+        if(ev.preventDefault)ev.preventDefault();
+        this.div=el(id);
+        this.dx=getLeft(this.div);
+        this.dy=getTop(this.div);
+        this.ex=ev.clientX;
+        this.ey=ev.clientY;
+        this.sl=document.body.scrollLeft;
+        this.st=document.body.scrollTop;
+        this.ism=true;
+        this.mr=document.body.scrollWidth-this.div.offsetWidth;
+        this.mb=document.body.scrollHeight-this.div.offsetHeight;
+        addEventHandler(document.body,"mousemove",d_move_move);
+        addEventHandler(document.body,"mouseup",d_move_cp);
+        document.body.onselectstart=function(){return false;};
+        document.body.style.MozUserSelect='none';
+    },
+    clearpoint:function(){
+        if(this.ism){
+            this.ism=false;
+            removeEventHandler(document.body,"mousemove",d_move_move);
+            removeEventHandler(document.body,"mouseup",d_move_cp);
+            document.body.onselectstart=null;
+            document.body.style.MozUserSelect='';
+        }
+    },
+    movediv:function(eve){
+        var ev=eve||window.event;
+        if(this.ism){
+            this.d_left=this.dx+ev.clientX-this.ex+document.body.scrollLeft-this.sl;
+            this.d_top=this.dy+ev.clientY-this.ey+document.body.scrollTop-this.st;
+            if(this.d_left<0)this.d_left=0;else if(this.d_left>this.mr)this.d_left=this.mr; //保证拖动层不被拖出窗体外
+            if(this.d_top<0)this.d_top=0;else if(this.d_top>this.mb)this.d_top=this.mb;//
+            this.div.style.left=this.d_left+"px";
+            this.div.style.top=this.d_top+"px";
+        }
+    }
+}
+var d_move_move=function(eve){d_move.movediv(eve);};
+var d_move_cp=function(){d_move.clearpoint();};
+
+//分页的页码生成
+//root,生成的页码的容器,pagenum:页码总数,size:页码的分页中每页显示的页码的数量,npage:当前页,classname当前页页码的样式(其它页码样式通
+//过root设置),method:使用javascript:来调用的翻页方法,参数为页码
+function PNCreater(root,pagenum,size,npage,classname,method){
+    var html=new StringBuilder();
+    var points="<a>...</a>";
+    var beg="<a href='javascript:",yinhao="'",k1="(",k2=")",cl=" class='",end1=">",end2="</a>";
+    function add(p,cn){
+        html.add(beg);
+        html.add(method);
+        html.add(k1);
+        html.add(p);
+        html.add(k2);
+        html.add(yinhao);
+        if(cn)
+        {
+            html.add(cl);
+            html.add(classname);
+            html.add(yinhao);
+        }
+        html.add(end1);
+        html.add(p);
+        html.add(end2);
+    }
+    if(pagenum>1)
+    {
+        var pp=0;
+        var p,i;
+        if (npage > size + 1)//表示当前页不在页码分页的第一页
+        {
+            pp=((npage-2)/size)>>0;
+        }
+        p = pp * size + 1;//页码的起始
+        if (p > 1)
+        {
+            add(1);
+            html.add(points);
+        }
+        size += 2;
+        for (i = 0; i < size && p <= pagenum; i++, p++)
+        {
+            if (p == npage)
+            {
+                add(p,true);
+            }
+            else
+            {
+                add(p,false);
+            }
+        }
+        if(pagenum>=p)
+        {
+            if(pagenum>p)
+            html.add(points);
+            add(pagenum,false);
+        }
+    }
+    root.innerHTML=html.tostring();
+    html=null;
+}
+
+//firefox下的换行--这是网上搜集来的,使用频率也不高.
+function toBreakWord(intLen, id){
+　　if(!window.XMLHttpRequest)return false;
+　　var obj=document.getElementById(id);
+　　var strContent=obj.innerHTML; 
+　　var strTemp=new StringBuilder();
+　　var br=" ";
+　　while(strContent.length>intLen){
+　　　　strTemp.add(strContent.substr(0,intLen));
+　　　　strTemp.add(br); 
+　　　　strContent=strContent.substr(intLen,strContent.length); 
+　　}
+　　strTemp.add(strContent);
+　　obj.innerHTML=strTemp.tostring();
+}
+
+//设置对象的样式
+function setclass(ele,className)
+{
+    if(window.ActiveXObject)
+    {
+        ele.className=className;
+    }
+    else
+    {
+        ele.setAttribute("class",className);
+    }
+}
+
+//对js数组的扩展
+//数组中插入元素(在数组末尾用Array[Array.length]=[...];)
+Array.prototype.insert=function(v,index){
+    for(var i=this.length;i>index;i--)
+    {
+        this[i]=this[i-1];
+    }
+    this[index]=v;
+}
+//移除
+Array.prototype.remove=function(index){
+    for(var i=index;i<this.length-1;i++)
+    {
+        this[i]=this[i+1];
+    }
+    this.length=this.length-1;
+}
+
+//元素倾斜,网上找的内容,没有使用过...
+var fw = {};
+//obj:页面元素的引用,angle:倾斜的角度,IE环境下使用,firefox环境下使用样式
+fw.rotate = function(obj, angle){
+ var n = Math.PI * (angle>=0?angle:360+angle) / 180;
+ var cos = Math.cos(n);
+ var sin = Math.sin(n);
+ if(document.all){
+  var s = "progid:DXImageTransform.Microsoft.Matrix(M11="+cos+",M12="+(-sin)+",M21="+sin+",M22="+cos+",SizingMethod='auto expand')";
+  return obj.style.filter = s;
+ }
+    var w = obj.offsetWidth;
+    var h = obj.offsetHeight;
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.save();
+    canvas.width = Math.abs(cos*w) + Math.abs(sin*h);
+    canvas.height = Math.abs(cos*h) + Math.abs(sin*w);
+    var x=0, y=-sin*w;
+    if (n<=Math.PI/2) {
+     x=sin*h, y=0;
+    } else if (n<=Math.PI) {
+     x=canvas.width, y=-cos*h;
+    } else if (n<=1.5*Math.PI) {
+     x=-cos*w, y=canvas.height;
+    }
+    ctx.translate(x,y);
+    ctx.rotate(n);
+    if(obj.src){
+     ctx.drawImage(obj,0,0,obj.width,obj.height);
+    }else{
+     ctx.strokeText(obj.innerHTML,0,10);
+    }
+    ctx.restore();
+    canvas.id = obj.id;
+    obj.parentNode.replaceChild(canvas, obj);
+}
+
+//调用控件的对应事件,e:对象,evname:事件名
+function callEvent(e,evname){
+    if(document.all){eval((["e.",evname,"();"]).join(''));}
+    else{
+    var evt=document.createEvent("MouseEvents");evt.initEvent(evname,true,true);e.dispatchEvent(evt);
+    }
+}
+
+//操作cookie的对象
+var cookie={};
+//读取
+cookie.gv=function(name){
+    var reg=new RegExp("^(.*[=& ])?"+name+"=([^&^;^=]*)[&;]?.*$","i");
+    if(reg.test(document.cookie)){
+    return document.cookie.replace(reg,"$2");}else{return null;}
+};
+//设置
+cookie.sv=function(name,value,expmin,path){
+    var c=new StringBuilder(name);
+    c.add("=");c.add(value);
+    if(expmin){
+        var exp=new Date();
+        exp.setTime(exp.getTime()+expmin*1000);
+        c.add(";expires=");c.add(exp.toGMTString());
+    }
+    c.add(";path=/");//cookie的path设置没有处理
+    document.cookie=c.tostring();
+};
+//删除
+cookie.del=function(name){
+    cookie.sv(name,"",-1);
+};
+//设置多个值,obj为key-value对象的数组
+cookie.svs=function(obj,expmin){
+    var c=new StringBuilder();
+    var isnext=false,a="&",d="=";
+    for(var i=0,l=obj.length;i<l;i++){
+        if(isnext)
+            c.add(a);
+        else
+            isnext=true;
+        c.add(obj[i].name);
+        c.add(d);
+        c.add(obj[i].value);
+    }
+    if(expmin){
+        var exp=new Date();
+        exp.setTime(exp.getTime()+expmin*1000);
+        c.add(";expires=");c.add(exp.toGMTString());
+    }
+    c.add(";path=/");//path设置没有处理
+    document.cookie=c.tostring();
+};
+//因为cookie添加可以通过前面已有的方法实现,而应用中我尽量避免在客户端添加cookie,因此这里没有写
+
+//浮动窗口的居中显示
+var vw=function(id){
+    var e=el(id);
+    var t=document.body.scrollTop||document.documentElement.scrollTop;
+    e.style.display='';
+    e.style.left=(document.body.offsetWidth-e.offsetWidth)/2+"px";
+    e.style.top=t+180+"px";
+};
+
+//这里定义的时候对象名想短点,不喜欢用$,所以用了下划线.
+var _={};
+//窗口的操作
+_.b={};
+_.b.v=vw;
+//按下ESC时执行函数
+//添加对象  ----需增加判断是否已存在的情况
+_.b.ea=function(handler){
+    if(!_.b.e)_.b.e=new Array();//判断生成保存事件的数组
+    if(_.b.e.length==0)addEventHandler(document.body,'keydown',_.b.evh);//判断添加事件
+    _.b.e[_.b.e.length]=handler;//将方法对象保存到数组
+};
+//按键判断,在按下ESC之后执行方法
+_.b.evh=function(eve){
+    var ev=eve||window.event;
+    if(ev.keyCode=='27'&&_.b.e.length>0){
+        for(var i=_.b.e.length-1;i>=0;i--){_.b.e[i]();}//执行方法
+    }
+};
+//删除执行的对象
+_.b.em=function(handler){
+    if(_.b.e&&_.b.e.length>0){
+        for(var i=0,l=_.b.e.length;i<l;i++){
+            if(_.b.e[i]==handler){
+                _.b.e.remove(i);break;//将方法对象从数组中移除
+            }
+        }
+    }
+    if(_.b.e&&_.b.e.length==0)removeEventHandler(document.body,'keydown',_.b.evh);//当数组长度为0时移除事件
+};
+//字符串的操作
+_.s={};
+//按字节长度截取字符串
+_.s.sub=function(s,n){
+    if(getlen(s)<=n)return s;
+    var c='';var m=n-1;
+    for(var i=0,j=1,l=s.length;i<l;i++,j++){
+        c+=s.substring(i,j);
+        if(getlen(c)>=m){
+            var r=c+s.substring(j,j+1);
+            if(getlen(r)>n)return c;
+            else return r;
+        }
+    }
+};
