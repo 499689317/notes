@@ -27,3 +27,5 @@ g++ Client.cpp -o client
 g++ Server.cpp -lws2_32 -o server
 g++ Client.cpp -lws2_32 -o client
 编译通过
+
+C++兼容之前的标准。办法是在编译时加上参数 -std=c++0x

@@ -23,12 +23,18 @@
 	/////////////////////////
 	// 在canvas上渲染一张图片
 	/////////////////////////
-	var img = new Image();
-	img.src = 'test_bg.jpg';
-	img.onload = function() {
-		// 图片加载完后回调
-		pixelInversion();
-	}
+	// var img = new Image();
+	// img.src = 'test_bg.jpg';
+	// img.onload = function() {
+	// 	// 图片加载完后回调
+	// 	pixelInversion();
+	// }
+	
+	/////////
+	// 渲染2
+	/////////
+	var imgUrl = canvas.toDataURL('test_bg.jpg');
+	console.log(imgUrl)
 
 	// 处理像素反转逻辑
 	function pixelInversion() {
