@@ -109,3 +109,29 @@ var gulp = require('gulp'), // 必须先引入gulp插件
 内核空间-->
 内核到磁盘上读取网页资源-->
 返回到用户空间-->响应给用户
+
+
+// 2016/9/28/
+
+windows下的多线程编程环境
+MinGW工具包
+pthread第三方线程库(Pre-built目录下的lib与include)
+
+1. 将Pre-built中lib目录下的文件copy到MinGW下的lib中
+
+    libpthreadGC2.a
+    libpthreadGCE2.a
+    ......
+    (编译时需要链接这些文件-lpthreadGCE2)
+2. 将Pre-built中include目录下的文件copy到MinGW下的include中
+
+3. 将Pre-built中dll目录下的文件copy到系统目录Windows下或执行文件(.cpp)的同级目录下
+
+4. 编译g++ Thread.cpp -oThread -lpthreadGCE2
+
+5. 不知道什么原因编译能过但运行时报无法链接libstdc++-6.dll文件(将Thread.cpp文件与关联的.dll文件放入同一文件夹下解决了这个问题)
+
+
+// 2016/9/29/
+
+多线程与异步的相似性(异步操作不消耗cpu资源,多线程消耗cpu资源但比多进程消耗少)
