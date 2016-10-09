@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>多边形过滤</title>
+  </head>
+  <body>
+    
+    <!-- 注释
+    <h1>Hello World!</h1>
+    We are using node 
+    <script>
+    document.write(process.versions.node)
+    </script>
+    Chrome 
+    <script>
+    document.write(process.versions.chrome)
+    </script>
+    and Electron 
+    <script>
+    document.write(process.versions.electron)
+    </script>
+    -->
+
+    <canvas class="canvas" align="center"></canvas>
+    <script type="text/javascript">
+
+        
+
+
+        /**
+         * 获取文件夹
+         * 取出文件夹下的所有图片文件
+         * 对每一张图片进行像素处理
+         */
+        
+        
+        var fs = require('fs');// 引入node.js的fs模块
+
+
+        var canvas = document.querySelector(".canvas");
+        // var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext("2d");
+
+
+        /**
+         * 需要裁切多边形的顶点
+         */
+        var pointxs = [];
+        var pointys = [];
+        var p = [{x: 30,y: 30}, {x: 50, y: 30}, {x: 60, y: 50}, {x: 50, y: 60}, {x: 45,y: 45}, {x: 30, y: 30}];
+        for (var i = 0; i < p.length; i++) {
+          pointxs.push(p[i].x);
+          pointys.push(p[i].y);
+        };
+
+
+        var path = '../Filter/res/';// 取资源路径
+
+        var names = fs.readdirSync(path);
+
+        drawPic(getPicSync(names[0]));
+        function drawPic(url) {
+            
+            var img = new Image();
+            img.src = url;
+            img.onload = function() {
+
+              /**
+               * 重置canvas宽高可以清除上一次的canvas画布内容
+               * 总是画文件夹内的最后一张图片
+               */
+              canvas.width = img.width;
+              canvas.height = img.height;
+              // canvas.style.width = img.width + "px";
+              // canvas.style.height = img.height + "px";
+
+              ctx.drawImage(img,0,0);
+
+              /**
+               * 处理下一张图片，直到处理完所有图片
+               * 每渲染一张图片后移除数组内相应的元素
+               */
+              names.shift();
+
+              /**
+               * 处理图片
+               */
+              // drawRect();
+              crop(img);// 将多边形内的像素点透明度置0
+
+              /**
+               * 将处理完的图片导出
+               */
+              exportPic(canvas.toDataURL("image/png"));
+              
+              if (names.length) {
+
+                  drawPic(getPicSync(names[0]));
+              };
+            }
+        }
+
+        function getPicSync(name) {
+
+          var url = path + name;
+          var buffer = fs.readFileSync(url);// 二进制文件流(相当于文件流)
+          return 'data:image/png;base64,' + buffer.toString('base64');// 相当于文件路径
+        }
+
+        /**
+         * 将处理后的图片导出
+         * p2为图片导出路径
+         */
+        var n = 0;
+        var p2 = '../Filter/dist/';
+        function exportPic(url) {
+
+          n++;
+          /**
+           * url参数需要用canvas.toDataURL("image/png")当前画布下只有一张图片
+           */
+          var base64Data = url.replace(/^data:image\/png;base64,/,"");
+          var binaryData = new Buffer(base64Data, 'base64').toString('binary');
+
+          fs.writeFileSync(p2 + n + '.png', binaryData, 'binary');
+        }
+
+        /**
+         * 将多边形内部的像素点透明度置0
+         */
+        function crop(img) {
+
+          var data = ctx.getImageData(0,0,img.width,img.height);
+
+          // console.log(data)
+          var x = 0, y = 0;
+          for (var i = 0; i < data.data.length; i += 4) {
+
+            if (pnpoly(p.length, pointxs, pointys, x, y)) {
+
+              /**
+               * 在多边形内部的像素点透明度置0
+               */
+              data.data[i +3] = 0;
+            };
+            
+            x++;
+            if (x === data.width) {
+
+              /**
+               * y坐标自加1,x坐标置0
+               */
+              x = 0;
+              y++;
+            };
+
+            // console.log(x,y)
+            ctx.putImageData(data,0,0);
+          }
+        }
+
+
+        /**
+         * 绘制多边形
+         */
+        function drawRect() {
+
+          ctx.beginPath();
+          for (var i = 0; i < p.length; i++) {
+
+            ctx.lineTo(p[i].x, p[i].y);
+          };
+          ctx.closePath();
+
+          ctx.fillStyle = "rgba(0,0,0,1)";// 颜色与透明度(填充样式)
+          ctx.fill();// 填充
+          ctx.stroke();// 描边
+        }
+
+        /**
+         * nvert: 多边形的顶点数
+         * vertx, verty: 顶点X坐标和Y坐标分别组成的数组
+         * pointx, pointy: 需要测试的点的X坐标和Y坐标
+         */
+        function pnpoly(nvert, vertx, verty, pointx, pointy) {
+          var i = 0, j = 0, c = 0;
+          for (i = 0, j < nvert - 1; i < nvert; j = i++) {
+            if ( ((verty[i] > pointy) != (verty[j] > pointy)) && (pointx < (vertx[j] - vertx[i]) * (pointy - verty[i]) / (verty[j] - verty[i]) + vertx[i]) )
+                 c = !c;
+          };
+          return c;
+        }
+    </script>
+  </body>
+</html>
