@@ -3,7 +3,8 @@
 
 using namespace std;
 /*
-*Point Class*/
+ * Point Class
+ */
 class Point{
 	int _x;
 	int _y;
