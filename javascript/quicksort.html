@@ -4,11 +4,37 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>快排</title>
+	<title>排序算法</title>
 </head>
 <body>
 
 	<script type="text/javascript">
+
+
+		/**
+		 * 冒泡排序
+		 * 
+		 */
+		
+
+		function bubbling(array) {
+
+			array.forEach(function(value, index) {
+
+				for (var i = 0; (i + index + 1) < array.length; i++) {
+					
+					if (array[i] > array[i + 1]) {
+						var temp = array[i];
+						array[i] = array[i + 1];
+						array[i + 1] = temp;
+					};
+				};
+			});
+		}
+
+
+
+
 
 		/**
 		 * 快排说明
@@ -70,15 +96,16 @@
 		}
 
 
-		// var array = [3, 4, 6, 1, 2, 5];
-		var array = [1, 3, 4, 5, 2, 6, 9, 7, 8, 0];
+		var array = [3, 4, 6, 1, 2, 5];
+		// var array = [1, 3, 4, 5, 2, 6, 9, 7, 8, 0];
 
 		console.log("排序前")
 		array.forEach(function(value, index) {
 			console.log("下标: ", index, "值: ", value)
 		});
 
-		quicksort(array, 0, array.length - 1);
+		// quicksort(array, 0, array.length - 1);
+		bubbling(array);
 
 		console.log("排序后")
 		array.forEach(function(value, index) {
