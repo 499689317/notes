@@ -111,16 +111,18 @@
         // console.log("acts: ", acts)
 
         var mrws = getDirList(path);// 坐骑，人物，武器
-        mrws = ["e"];
+        mrws = ["role_1_x1", "role_2_x1", "role_3_x1", "role_4_x1", "role_5_x1"];
         console.log("mrws: ", mrws)
+
         var ids = getDirList(path + mrws[0]);// id
         console.log("ids: ", ids)
 
-        var acts = getDirList(path + mrws[0] + '/' + ids[0]);// 动作
+        // var acts = getDirList(path + mrws[0] + '/' + ids[0]);// 动作
+        var acts = getDirList(path + mrws[0]);// 动作
         console.log("acts: ", acts)
 
-        var dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-        // var dirs = [1,2,3,4,5];// 方向
+        // var dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+        var dirs = [1,2,3,4,5];// 方向
         console.log("dirs: ", dirs)
         
 
@@ -133,9 +135,8 @@
         control();
         function control() {
 
-            mpath = path + mrws[0] + '/' + ids[0] + '/' + acts[0] + '/' + dirs[0];
-            // mpath = path + mrws[0] + '/' + ids[0] + '/' + acts[0];
-            // mpath = path + mrws[0] + '/' + ids[0];
+            // mpath = path + mrws[0] + '/' + ids[0] + '/' + acts[0] + '/' + dirs[0];
+            mpath = path + mrws[0] + '/' + acts[0] + '/' + dirs[0];
 
               
             console.log(mpath);
@@ -178,35 +179,36 @@
                 acts.shift();
                 if (acts.length) {
 
-                    dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-                    // dirs = [1,2,3,4,5];
+                    // dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+                    dirs = [1,2,3,4,5];
 
                     control();
                 } else {
 
-                    ids.shift();
-                    if (ids.length) {
+                    // ids.shift();
+                    // if (ids.length) {
 
-                        acts = getDirList(path + mrws[0] + '/' + ids[0]);
-                        dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-                        // dirs = [1,2,3,4,5];
+                    //     acts = getDirList(path + mrws[0] + '/' + ids[0]);
+                    //     dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+                    //     // dirs = [1,2,3,4,5];
 
-                        control();
-                    } else {
+                    //     control();
+                    // } else {
 
                         mrws.shift();
                         if (mrws.length) {
 
                             ids = getDirList(path + mrws[0]);
-                            acts = getDirList(path + mrws[0] + '/' + ids[0]);
-                            dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-                            // dirs = [1,2,3,4,5];
+                            // acts = getDirList(path + mrws[0] + '/' + ids[0]);
+                            acts = getDirList(path + mrws[0]);// test测试用
+                            // dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+                            dirs = [1,2,3,4,5];
 
                             control();
                         } else {
                             console.log('资源处理完成')
                         }
-                    }
+                    // }
                 }
             }
         }
@@ -373,9 +375,8 @@
 
             var oldname = mpath + '/' + names2[0];
 
-            var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + acts[0] + '_' + dirs[0] + '_' + namec + '.png';
-            // var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + acts[0] + '_' + namec + '.png';
-            // var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + namec + '.png';
+            // var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + acts[0] + '_' + dirs[0] + '_' + namec + '.png';
+            var newname = mpath + '/' + mrws[0] + '_' + acts[0] + '_' + dirs[0] + '_' + namec + '.png';
               
             namec++;
 
@@ -418,7 +419,7 @@
 
             // console.log(cmd)
 
-            EXEC(cmd ,function() {
+            EXEC(cmd, function() {
 
                 // 操作执行完回调
                 console.log('合并完成')
