@@ -45,13 +45,20 @@
         console.log(FS)
         console.log(PATH)
 
-
         
         // var canvas = document.getElementById('canvas');
         var canvas = document.querySelector(".canvas");
         var ctx = canvas.getContext("2d");
         
 
+        /**
+         * 路径处理
+         */
+        function getCurPath() {
+            // 获取当前执行文件路径
+            var url = document.scripts[0].baseURI;
+            return PATH.dirname(url.replace('file:///',''));
+        }
         function delFolder(path) {
             
             if (!FS.existsSync(path)) return;
@@ -74,16 +81,6 @@
             });
             FS.rmdirSync(path);
         }
-
-        /**
-         * 路径处理
-         */
-        function getCurPath() {
-            // 获取当前执行文件路径
-            var url = document.scripts[0].baseURI;
-            return PATH.dirname(url.replace('file:///',''));
-        }
-
         function getDirList(path) {
             var array = FS.readdirSync(path);
 
@@ -98,7 +95,6 @@
                     i--;
                 };
             };
-
             return array;
         }
 
@@ -114,45 +110,112 @@
         // var acts = FS.readdirSync(path + mrws[0] + '/' + ids[0]);// 动作
         // console.log("acts: ", acts)
 
+        var mrws = [],
+            ids = [],
+            acts = [],
+            dirs = [],
+
+            names = [],// 处理图片裁切文件名
+            names2 = [],// 处理图片重命名文件名
+            names3 = [],// 处理图片合成文件名
+            namec = 0,// 重命名后缀
+            mpath = "";// 文件路径
+
+
+
         var mrws = getDirList(path);// 坐骑，人物，武器
-        mrws = ["e"];
+        // mrws = ["m", "r", "w", "wing"];
         console.log("mrws: ", mrws)
 
-        var ids = getDirList(path + mrws[0]);// id
-        console.log("ids: ", ids)
-
-        var acts = getDirList(path + mrws[0] + '/' + ids[0]);// 动作----战斗
-        console.log("acts: ", acts)
-
-        var dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]); // -----战斗
-        // var dirs = [1,2,3,4,5];// 方向
-        console.log("dirs: ", dirs)
+        function getIdsList() {
+            if (mrws[0]) {
+                var cp = path + mrws[0];
+                if (FS.statSync(cp).isDirectory() ) {
+                    ids = getDirList(path + mrws[0]);// id
+                    console.log("ids: ", ids)
+                } else {
+                    mrws.length = 0;
+                }
+            };
+        }
         
+        function getActsList() {
+            if (ids[0]) {
+                var cp = path + mrws[0] + "/" + ids[0];
+                if (FS.statSync(cp).isDirectory() ) {
+                    acts = getDirList(path + mrws[0] + "/" + ids[0]);// 动作----战斗
+                    console.log("acts: ", acts)
+                } else {
+                    ids.length = 0;
+                }
+            };
+        }
+        
+        function getDirsList() {
+            if (acts[0]) {
+                var cp = path + mrws[0] + "/" + ids[0] + "/" + acts[0];
+                if (FS.statSync(cp).isDirectory() ) {
+                    dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]); // -----战斗
+                    console.log("dirs: ", dirs)
+                } else {
+                    acts.length = 0;
+                }
+            };
+        }
 
-        var mpath = '';// 文件路径
-        var names = [];// 处理图片裁切文件名
-        var names2 = [];// 处理图片重命名文件名
-        var names3 = [];// 处理图片合成文件名
-        var namec = 0;// 重命名后缀
+        getIdsList();
+        getActsList();
+        getDirsList();
+        
 
         control();
         function control() {
 
-            // var cp = path + mrws[0] + '/' + ids[0] + '/' + acts[0];
-            // if (FS.statSync(cp).isDirectory()) {
-                mpath = path + mrws[0] + '/' + ids[0] + '/' + acts[0] + '/' + dirs[0]; // -----战斗
-            // } else {
+            /**
+             * 路径拼接
+             */
+            mpath = path;
 
-            //     control();
-            //     return;
-            // }
-            
+            if (mrws[0]) {
+                var cp = mpath + mrws[0];
+                if (FS.statSync(cp).isDirectory()) {
+                    mpath += mrws[0];
+                } else {
+                    mrws.length = 0;
+                }
+            };
+            if (ids[0]) {
+                var cp = mpath + "/" + ids[0];
+                if (FS.statSync(cp).isDirectory()) {
+                    mpath += ("/" + ids[0]);
+                } else {
+                    ids.length = 0;
+                }
+            };
+            if (acts[0]) {
+                var cp = mpath + "/" + acts[0];
+                if (FS.statSync(cp).isDirectory()) {
+                    mpath += ("/" + acts[0]);
+                } else {
+                    acts.length = 0;
+                }
+            };
+            if (dirs[0]) {
+                var cp = mpath + "/" + dirs[0];
+                if (FS.statSync(cp).isDirectory()) {
+                    mpath += ("/" + dirs[0]);
+                } else {
+                    dirs.length = 0;
+                }
+            };
+
+
+            // mpath = path + mrws[0] + '/' + ids[0] + '/' + acts[0] + '/' + dirs[0]; // -----战斗
             // mpath = path + mrws[0] + "/" + ids[0] + "/" + acts[0]; // --------展示
             // mpath = path + mrws[0] + '/' + ids[0]; // -----宝物
-
               
             console.log(mpath);
-            pipe(mrws[0]);
+            pipe();
         }
 
 
@@ -165,27 +228,24 @@
 
                 names.length = 0;
                 names = getDirList(mpath);
+
                 drawPic(getPicSync(names[0]));
             } else {
 
                 names2.length = 0;
                 names2 = getDirList(mpath);
 
-                console.log(names2)
                 sortFiles(names2);
-                console.log(names2)
-
                 rename();
 
-                // update();
-                merge(function() {
-
+                // merge(function() {
                     update();
-                });
+                // });
             }
         }
         
         function update() {
+
 
             /**
              * 任一文件夹处理完后更新下一个文件夹
@@ -198,30 +258,30 @@
                 acts.shift();
                 if (acts.length) {
 
-                    dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-                    // dirs = [1,2,3,4,5];
-
+                    // dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+                    getDirsList();
                     control();
                 } else {
 
                     ids.shift();
                     if (ids.length) {
 
-                        acts = getDirList(path + mrws[0] + '/' + ids[0]);
-                        dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-                        // dirs = [1,2,3,4,5];
-
+                        // acts = getDirList(path + mrws[0] + '/' + ids[0]);
+                        // dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+                        getActsList();
+                        getDirsList();
                         control();
                     } else {
 
                         mrws.shift();
                         if (mrws.length) {
 
-                            ids = getDirList(path + mrws[0]);
-                            acts = getDirList(path + mrws[0] + '/' + ids[0]);
-                            dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
-                            // dirs = [1,2,3,4,5];
-
+                            // ids = getDirList(path + mrws[0]);
+                            // acts = getDirList(path + mrws[0] + '/' + ids[0]);
+                            // dirs = getDirList(path + mrws[0] + "/" + ids[0] + "/" + acts[0]);
+                            getIdsList();
+                            getActsList();
+                            getDirsList();
                             control();
                         } else {
                             console.log('资源处理完成')
@@ -289,15 +349,10 @@
                     names2.length = 0;
                     names2 = getDirList(mpath);
 
-                    console.log(names2)
                     sortFiles(names2);
-                    console.log(names2)
-
                     rename();
 
-                    // update();
                     merge(function() {
-
                         update();
                     });
                 }
@@ -399,23 +454,35 @@
 
             var oldname = mpath + '/' + names2[0];
 
-            var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + acts[0] + '_' + dirs[0] + '_' + namec + '.png'; // -----战斗
+            var newname = mpath + '/';
+            if (mrws[0]) {
+                newname += mrws[0];
+            };
+            if (ids[0]) {
+                newname += ("_" + ids[0]);
+            };
+            if (acts[0]) {
+                newname += ("_" + acts[0]);
+            };
+            if (dirs[0]) {
+                newname += ("_" + dirs[0]);
+            };
+            newname += ("_" + namec + ".png");
+
+            // var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + acts[0] + '_' + dirs[0] + '_' + namec + '.png'; // -----战斗
             // var newname = mpath + "/" + mrws[0] + "_" + ids[0] + "_" + acts[0] + "_" + namec + '.png'; // ------展示
             // var newname = mpath + '/' + mrws[0] + '_' + ids[0] + '_' + namec + '.png'; // -----战斗
               
             namec++;
 
             // console.log(oldname,newname)
-
             FS.renameSync(oldname, newname);
 
             names2.shift();
-
             if (names2.length) {
                 rename();
             } else {
                 namec = 0;
-
                 console.log('重命名完成')
             }
         }
@@ -439,7 +506,8 @@
              */
             var output = '--data sheet.json --sheet sheet.png --format json';
             var rotate = '--disable-rotation';
-            var scale = '--scale 0.3';
+            var pvr = '--texture-format pvr3 --opt PVRTC4';
+            var scale = '--scale 0.7';
             var cmd = cd + 'TexturePacker' + ' ' + rotate + ' ' + scale + ' ' + output + ' ' + mpath;
 
             // console.log(cmd)
