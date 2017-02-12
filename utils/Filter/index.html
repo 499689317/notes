@@ -86,7 +86,7 @@
 
             for (var i = 0; i < array.length; i++) {
                 
-                if (array[i][0] == ".") {
+                if (array[i][0] == "." || array[i][0] == "_") {
 
                     // FS.rmdirSync(path + "/" + array[i]);
                     delFolder(path + "/" + array[i]);
