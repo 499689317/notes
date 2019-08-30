@@ -1,0 +1,57 @@
+
+// 统计点击道具次数
+
+var shell = require("./shell.js");
+var fs = require("fs");
+
+shell.addTask("click_item_log", function() {
+
+	return function(next) {
+
+		co(function* () {
+
+			// var fileName = "./统计点击道具数据.txt";
+			var fileName = "./统计点击道具数据.csv";
+			console.log(fileName);
+
+			var list = yield colls["click_item_log"].$findAll({},{_id: 0, rid: 0});
+			// var title = "当前统计总人数为：" + list.length;
+			// fs.appendFileSync(fileName, title + "\n", "utf-8");
+			// console.log(list);
+			var items = {};
+			for (var i = 0; i < list.length; i++) {
+
+				for(var key in list[i]) {
+					
+					// var time = new Date(key);
+					// var year = time.getFullYear();
+					// var month = time.getMonth() + 1;
+					// var date = time.getDate();
+					// var hour = time.getHours();
+					// var minu = time.getMinutes();
+					// var k = year + "/" + month + "/" + date + "号" + hour + "点"// +minu;
+					
+					var iid = list[i][key].state.ButtonName;
+					if (!items[iid]) {
+						items[iid] = 0;
+					}
+					items[iid]++;
+				};
+			}
+			// for(var d in items) {
+			// 	var des = d + "道具点击次数：" + items[d];
+			// 	fs.appendFileSync(fileName, des + "\n", "utf-8");
+			// }
+			
+			var des = "道具id,点击次数,统计总人数," + list.length + "\n";
+			for(var id in items) {
+				des += (id + "," + items[id] + "\n");
+			};
+			fs.appendFileSync(fileName, des + "\n", "utf-8");
+		}).then(function() {
+			next(null, null);
+		});
+	};
+}).start();
+
+

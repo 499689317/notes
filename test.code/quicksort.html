@@ -1,0 +1,119 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>排序算法</title>
+</head>
+<body>
+
+	<script type="text/javascript">
+
+
+		/**
+		 * 冒泡排序
+		 * 
+		 */
+		
+
+		function bubbling(array) {
+
+			array.forEach(function(value, index) {
+
+				for (var i = 0; (i + index + 1) < array.length; i++) {
+					
+					if (array[i] > array[i + 1]) {
+						var temp = array[i];
+						array[i] = array[i + 1];
+						array[i + 1] = temp;
+					};
+				};
+			});
+		}
+
+
+
+
+
+		/**
+		 * 快排说明
+		 *
+		 * var array = [3, 4, 6, 1, 2, 5];
+		 * 		
+		 * 		下标：  0, 1, 2, 3, 4, 5
+		 * 		
+		 * 基准数key取数组第一个数3, 即array[0], left = 0;
+		 * 
+		 * 第一趟: 从右向左轮循找第一个小于key的数, 找出2小于3, 2的下标right此时为4, 将array[right]赋值给array[left], 此时left为0
+		 * 数组变为: array = [2, 4, 6, 1, 2, 5]; 接着从左往右轮循
+		 * 第二趟: 从左往右轮循找大于key的数, 找出4大于3, 此时left为1, 将array[left]赋值给array[right], 此时right = 4
+		 * 数组变为: array = [2, 4, 6, 1, 4, 5]; 接着从右往左轮循
+		 * 第三趟: 从右往左轮循找小于key的数, 找出1小于3, 此时right = 3, 将array[right]赋值给array[left], 此时left = 1
+		 * 数组变为: array = [2, 1, 6, 1, 4, 5]; 接着从左往右轮循
+		 * 第四趟: 从左往右轮循找大于key的数, 找出6大于3, 此时left = 2, 将array[left]赋值给array[right], 此进right = 3
+		 * 数组变为: array = [2, 1, 6, 6, 4, 5]; 接着从右往左轮循
+		 * 第五趟: 从右往左轮循找小于key的数, 此时left >= right, 停止查找, 将key赋值给array[left], 此时left = 2
+		 * 数组变为: array = [2, 1, 3, 6, 4, 5]; 第一次对数组排序结束, 按照上述原理, 递归轮循最终得到有序数组
+		 */
+		
+
+		function quicksort(array, start, end) {
+
+			if (start < end) {
+
+				var left = start,
+					right = end,
+					key = array[left];
+
+				while(left < right) {
+
+					// 从右向左找小于key的数
+					while(left < right && array[right] >= key) {
+						right--;
+					}
+					if (left < right) {
+						// array[left++] = array[right];
+						array[left] = array[right];
+					};
+
+					// 从左往右找大于key的数
+					while(left < right && array[left] <= key) {
+						left++;
+					}
+					if (left < right) {
+						// array[right--] = array[left];
+						array[right] = array[left];
+					};
+				}
+
+				array[left] = key;
+
+				// 递归
+				quicksort(array, start, left - 1);
+				quicksort(array, left + 1, end);
+			};
+		}
+
+
+		var array = [3, 4, 6, 1, 2, 5];
+		// var array = [1, 3, 4, 5, 2, 6, 9, 7, 8, 0];
+
+		console.log("排序前")
+		array.forEach(function(value, index) {
+			console.log("下标: ", index, "值: ", value)
+		});
+
+		// quicksort(array, 0, array.length - 1);
+		bubbling(array);
+
+		console.log("排序后")
+		array.forEach(function(value, index) {
+			console.log("下标: ", index, "值: ", value)
+		});
+
+
+	</script>
+
+</body>
+</html>

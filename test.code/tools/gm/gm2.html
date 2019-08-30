@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>gm工具2</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<hr />
+	<input id="path" type="text">
+	<input id="data" type="text">
+	<button id="button" type="button">登录状态</button>
+	<hr />
+
+	<hr />
+	<input id="path1" type="text">
+	<input id="data1" type="text">
+	<button id="button1" type="button">在线状态</button>
+	<hr />
+
+	<hr />
+	<input id="path4" type="text">
+	<input id="data4" type="text">
+	<button id="button4" type="button">注册状态</button>
+	<hr />
+
+	<hr />
+	<input id="path2" type="text">
+	<input id="data2" type="text">
+	<button id="button2" type="button">留存状态</button>
+	<hr />
+	
+	<hr />
+	<input id="path3" type="text">
+	<input id="data3" type="text">
+	<button id="button3" type="button">流失状态</button>
+	<hr />
+
+	<script type="text/javascript">
+
+		function getURL() {
+			// return "http://39.106.101.80:7000/";
+			// return "http://192.168.1.114:7000/";
+			return "http://101.201.234.73:7000/";
+		};
+		function sendHttpRequest(msg, cb) {
+
+			if (!msg || !msg.type || !msg.url || !msg.path) {
+				console.log("参数错误")
+				return;
+			};
+			var type = msg.type;
+			var url = msg.url + msg.path;
+			var data = msg.data;
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open(type, url, true);
+			xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+			xhr.onreadystatechange = function() {
+				if (4 == xhr.readyState) {
+					if (200 <= xhr.status && 400 > xhr.status) {
+						var message = JSON.parse(xhr.response);
+						cb && cb(message);
+					}
+				};
+			};
+			// 监听错误请求
+			xhr.onerror = function() {
+				console.log("http error", xhr.status);
+			};
+			xhr.ontimeout = function() {
+				console.log("http timeout");
+			};
+			xhr.send(JSON.stringify(data) );
+		};
+
+		function getDateTime(time) {
+
+			if (!time) {
+				return 0;
+			}
+			var dateTime = new Date(time);
+			var year = dateTime.getFullYear();
+			var month = dateTime.getMonth() + 1;
+			var date = dateTime.getDate();
+			var hour = dateTime.getHours();
+			var minu = dateTime.getMinutes();
+			var sec =  dateTime.getSeconds();
+			return year + "/" + month + "/" + date + "/" + hour + ":" + minu + ":" + sec;
+		};
+		var g_table = null;
+		function createTable(title, key, value, cb) {
+
+			cleanTable();
+			var table = g_table = document.createElement("table");
+			document.body.appendChild(table);
+
+			table.width = 700;
+			table.border = 1;
+			
+			// 标题
+			var caption = document.createElement("caption");
+		    table.appendChild(caption);
+		    caption.innerHTML = title || "表格标题";
+
+		    var tr = document.createElement("tr");
+		    table.appendChild(tr);
+
+		    var th = document.createElement("th");
+		    tr.appendChild(th);
+		    th.innerHTML = key || "键";
+		    var th = document.createElement("th");
+		    tr.appendChild(th);
+		    th.innerHTML = value || "值";
+
+		    cb && cb(table);
+		}
+		function cleanTable() {
+			if (g_table) {
+				// g_table.innerHTML = "";
+				document.body.removeChild(g_table);
+				g_table = null;
+			}
+		}
+		
+		var path = document.getElementById("path");
+		var data = document.getElementById("data");
+		path.value = "get/player/login";
+		data.value = '{"rid": 1}';
+		document.getElementById("button").onclick = function() {
+			var opt = {
+				type: "post",
+				url: getURL("http"),
+				path: path.value,
+				data: data.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+
+				if (msg.error == 0) {
+					showPlayerLogin(msg.data);
+				}
+			});
+		};
+		function showPlayerLogin(data) {
+			console.log(data);
+			if (!data) {
+				console.log("没有数据");
+				return;
+			}
+			var status = {
+				1: "注册",
+				2: "上线",
+				3: "下线",
+			};
+			createTable(data.rid + "用户登录详情", "时间", "状态", function(table) {
+			    for(var key in data.logs) {
+
+			    	var tr = document.createElement("tr");
+			    	table.appendChild(tr);
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = getDateTime(Number(data.logs[key].time) );
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = status[data.logs[key].type];
+			    }
+			});
+		};
+
+		var path1 = document.getElementById("path1");
+		var data1 = document.getElementById("data1");
+		path1.value = "get/online";
+		data1.value = '{"year": 0, "month": 0, "date": 0}';
+		document.getElementById("button1").onclick = function() {
+			var opt = {
+				type: "post",
+				url: getURL("http"),
+				path: path1.value,
+				data: data1.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+
+				if (msg.error == 0) {
+					showOnline(msg.data);
+				}
+			});
+		};
+		function showOnline(data) {
+			console.log(data);
+			if (!data) {
+				console.log("没有数据");
+				return;
+			}
+			createTable(data.time + "全服在线详情", "时间", "人数", function(table) {
+			    for(var key in data.logs) {
+
+			    	var tr = document.createElement("tr");
+			    	table.appendChild(tr);
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = key;
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = data.logs[key].count;
+			    }
+			});
+		};
+
+		var path2 = document.getElementById("path2");
+		var data2 = document.getElementById("data2");
+		path2.value = "get/go/back";
+		data2.value = '{"year": 0, "month": 0, "date": 0}';
+		document.getElementById("button2").onclick = function() {
+			var opt = {
+				type: "post",
+				url: getURL("http"),
+				path: path2.value,
+				data: data2.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+
+				if (msg.error == 0) {
+					showGoBack(msg.data);
+				}
+			});
+		};
+		function showGoBack(data) {
+			console.log(data);
+			var time = "";
+			if (data) {
+				time = data.time;
+			}
+			createTable(time + "玩家在线详情", "注册至今天数", "人次", function(table) {
+
+				if (!data) {
+					return;
+				}
+			    for(var key in data.logs) {
+
+			    	var tr = document.createElement("tr");
+			    	table.appendChild(tr);
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = key;
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = data.logs[key];
+			    }
+			});
+		};
+
+		var path3 = document.getElementById("path3");
+		var data3 = document.getElementById("data3");
+		path3.value = "get/go/leave";
+		data3.value = '{"year": 0, "month": 0, "date": 0}';
+		document.getElementById("button3").onclick = function() {
+			var opt = {
+				type: "post",
+				url: getURL("http"),
+				path: path3.value,
+				data: data3.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+
+				if (msg.error == 0) {
+					showGoLeave(msg.data);
+				}
+			});
+		};
+		function showGoLeave(data) {
+			console.log(data);
+			var time = "";
+			if (data) {
+				time = data.time;
+			}
+			createTable(time + "玩家在线详情", "上一次登录至今天数", "人次", function(table) {
+
+				if (!data) {
+					return;
+				}
+			    for(var key in data.logs) {
+
+			    	var tr = document.createElement("tr");
+			    	table.appendChild(tr);
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = key;
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = data.logs[key];
+			    }
+			});
+		};
+
+		var path4 = document.getElementById("path4");
+		var data4 = document.getElementById("data4");
+		path4.value = "get/regist";
+		data4.value = '{"year": 0, "month": 0, "date": 0}';
+		document.getElementById("button4").onclick = function() {
+			var opt = {
+				type: "post",
+				url: getURL("http"),
+				path: path4.value,
+				data: data4.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+
+				if (msg.error == 0) {
+					showRegist(msg.data);
+				}
+			});
+		};
+		function showRegist(data) {
+			console.log(data);
+			createTable(data.time + "游戏注册详情", "日期", "人数", function(table) {
+
+				for (var i = 0; i < data.list.length; i++) {
+					
+					var tr = document.createElement("tr");
+			    	table.appendChild(tr);
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = data.list[i].logId.split("-")[1];
+
+			    	var td = document.createElement("td");
+			    	tr.appendChild(td);
+			    	td.innerHTML = data.list[i].count;
+				}
+			});
+		};
+	</script>
+</body>
+</html>

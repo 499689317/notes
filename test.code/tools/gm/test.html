@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>服务器连接伪客户端</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<hr />
+	<!-- 登录 -->
+	<input id="socket_id" type="text" name="协议id">
+	<input id="socket_data" type="text" name="协议数据">
+	<button id="socket_button" type="button">登录</button>
+	<hr />
+
+	<hr />
+	<!-- 注册新号 -->
+	<input id="socket_id1" type="text" name="协议id">
+	<input id="socket_data1" type="text" name="协议数据">
+	<button id="socket_button1" type="button">创建新玩家</button>
+	<hr />
+
+	<hr />
+	<!-- 进入游戏 -->
+	<input id="socket_id2" type="text" name="协议id">
+	<input id="socket_data2" type="text" name="协议数据">
+	<button id="socket_button2" type="button">进入游戏</button>
+	<hr />
+	
+	<hr />
+	<h3 align="center">http测试</h3>
+	<input id="http_data" type="text">
+	<button id="http_button" type="button">发送</button>
+	<hr />
+
+	<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+	<script type="text/javascript">
+		// alert("点击继续");
+
+		// 获取连接URL
+		var ip = "192.168.1.114";
+		// var ip = "192.168.1.2";
+		function getURL(type) {
+			if ("http" == type) {
+				return "http://" + ip + ":" + "3000";
+			};
+			return "ws://" + ip + ":" + "8000" + "/?";
+		};
+		
+		// 实现一套与服务器交户的WebSocket
+		var webSocket = null;
+		function createWebSocket() {
+
+			var url = getURL();
+			if (!url) return;
+
+			// 实例对象
+			webSocket = new WebSocket(url);
+			// console.log(webSocket)
+
+			// 监听socket方法
+			webSocket.onopen = function(evt) {
+				// socket连接成功
+				console.log("connected success : ", evt )
+
+			};
+			webSocket.onmessage = function(evt) {
+				// 服务器来消息了
+				console.log("server msg : ", evt.data )
+
+			};
+			webSocket.onerror = function(evt) {
+				// socket错误
+				console.log("socket error : ", evt )
+				closeSocket();
+			};
+			webSocket.onclose = function(evt) {
+				// 关闭socket
+				console.log("socket close : ", evt )
+				closeSocket();
+			};
+		};
+
+		// 创建socket连接
+		// setInterval(function() {
+
+			createWebSocket();
+
+		// }, 1000);
+		
+
+		// 客户端发送消息
+		function sendMsg(data) {
+			// 检测消息参数
+			if (!data || typeof data != "object") {
+				console.log("参数错误")
+				return;
+			};
+
+			// 检测socket状态
+			if (!webSocket || webSocket.readyState == 0) {
+				console.error("socket未连接成功");
+				return;
+			} else if (webSocket.readyState == 2) {
+				console.error("socket正在关闭");
+				return;
+			} else if (webSocket.readyState == 3) {
+				console.error("socket已经关闭");
+				return;
+			};
+
+			// 消息包
+			var packet = {
+				id: data.id,
+				data: data.data,
+			};
+			console.log(data);
+			webSocket.send(JSON.stringify(packet) );
+
+		};
+		// 关闭Socket
+		function closeSocket() {
+			webSocket.close();
+			webSocket = null;
+		};
+
+		//=======================
+		//=======================
+		//=======================
+		//======   测试Socket
+		//=======================
+		//=======================
+		//=======================
+		
+		// 登录
+		var socketId = document.getElementById("socket_id");
+		var socketData = document.getElementById("socket_data");
+		var socketButton = document.getElementById("socket_button");
+		socketId.value = 10;
+		socketData.value = '{"rid": 1, "acc": "test", "name": "test"}';
+		socketButton.onclick = function() {
+			
+			sendMsg({
+				id: socketId.value,
+				data: socketData.value
+			});
+		};
+		// 注册
+		var socketId1 = document.getElementById("socket_id1");
+		var socketData1 = document.getElementById("socket_data1");
+		var socketButton1 = document.getElementById("socket_button1");
+		socketId1.value = 11;
+		socketData1.value = '{"rid": 1, "acc": "test", "name": "test"}';
+		socketButton1.onclick = function() {
+			
+			sendMsg({
+				id: socketId1.value,
+				data: socketData1.value
+			});
+		};
+		// 进入游戏
+		var socketId2 = document.getElementById("socket_id2");
+		var socketData2 = document.getElementById("socket_data2");
+		var socketButton2 = document.getElementById("socket_button2");
+		socketId2.value = 12;
+		socketData2.value = '{"stages": {"11100001": {"12100001": [{"time": 597,"star": 3,"score": 7360,"rew": [{"iid": "10000001","num": 7}, {"iid": "13000001","num": 1}]}]}}}';
+		socketButton2.onclick = function() {
+			
+			// for (var i = 0; i < 10000; i++) {
+				
+				sendMsg({
+					id: socketId2.value,
+					data: socketData2.value
+				});
+			// }
+		};
+		
+		//===========================
+		//===========================
+		//===========================
+		//= 创建http请求(不支持IE5/6)
+		//===========================
+		//===========================
+		//===========================
+		function sendHttpRequest(packet) {
+
+			if (!packet || !packet.type || !packet.url || !packet.data || typeof packet.data != "object") {
+				console.log("参数错误")
+				return;
+			};
+			// 实例xhr对象
+			var xhr = new XMLHttpRequest();
+			// console.log(xhr)
+			// xhr.responseType = "arraybuffer";
+
+			// 1. 请求方式
+			// 2. url
+			// 3. 是否异步
+			xhr.open(packet.type, packet.url, true);
+
+			// 添加http头
+			xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+
+			// 监听请求过程
+			// 当readyState为4，status状态为200时表示响应已就绪
+			xhr.onreadystatechange = function() {
+				if (4 == xhr.readyState) {
+					if (200 <= xhr.status && 400 > xhr.status) {
+
+						console.log("服务器响应数据 : ", xhr.response)
+					} else {
+						console.log("http请求错误")
+					}
+				};
+			};
+
+			// 监听错误请求
+			xhr.onerror = function() {
+				console.log("http error : ", xhr.status)
+			};
+			xhr.ontimeout = function() {
+				console.log("http timeout")
+			};
+
+			// 发送请求
+			xhr.send(JSON.stringify(packet.data) );
+		};
+		
+
+		//=======================
+		//=======================
+		//=======================
+		//=====      测试
+		//=======================
+		//=======================
+		//=======================
+		var httpData = document.getElementById("http_data");
+		var httpButton = document.getElementById("http_button");
+
+		httpButton.onclick = function() {
+
+			// 发送一个http请求
+			sendHttpRequest({
+				type: "GET",
+				url: getURL("http"),
+				data: {
+					data: null
+				}
+			});
+		};
+
+		// socket.io
+		// var URL = "http://" + ip + ":8888";
+		// console.log(URL)
+		// var socketIo = io.connect(URL);
+		// console.log(socketIo)
+		// socketIo.on('message', function (data) {
+
+	    //     console.log(data)
+	    // });
+	    // 通知服务器数据来了
+		// socketIo.emit('message', { my: 'data' });
+	</script>
+</body>
+</html>

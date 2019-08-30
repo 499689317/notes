@@ -1,0 +1,16 @@
+[32m2017-11-29T23:54:09+0800 <info> app.js:51 (loadDataStatus) ./data/apk_version.json[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:51 (loadDataStatus) ./data/notice.json[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:51 (loadDataStatus) ./data/server_list.json[39m
+[32m2017-11-29T23:54:09+0800 <info> db.js:54 (getDbUrl) mongodb://39.106.101.80:27017/gate[39m
+[32m2017-11-29T23:54:09+0800 <info> db.js:17 () 数据库连接成功[39m
+[32m2017-11-29T23:54:09+0800 <info> main.js:19 () 数据库初始化完成[39m
+[32m2017-11-29T23:54:09+0800 <info> login_mgr.js:10 (LoginMgr.init) 初始化登录模块数据[39m
+[32m2017-11-29T23:54:09+0800 <info> proto.js:72 (Server.<anonymous>) 启动http At:3002[39m
+[32m2017-11-29T23:54:09+0800 <info> login_mgr.js:22 (LoginMgr.<anonymous>) [][39m
+[32m2017-11-29T23:54:09+0800 <info> login.js:131 (Login.initServerList) [ { sid: '101', count: 0 } ][39m
+[32m2017-11-29T23:54:09+0800 <info> notice_mgr.js:10 (NoticeMgr.init) 初始化消息广播模块数据[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:77 () =================================[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:78 () =================================[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:79 () =========gate server ok==========[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:80 () =================================[39m
+[32m2017-11-29T23:54:09+0800 <info> app.js:81 () =================================[39m

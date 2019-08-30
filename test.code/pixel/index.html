@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>图片转换</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="text/javascript">
+	
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');// canvas 2d 上下文
+	canvas.width = 800;
+	canvas.height = 800;
+
+	////////////////
+	// 用上下文画图
+	////////////////
+	// context.rect(0,0,800,800);
+	// context.fillStyle = '#ff0000';
+	// context.fill();
+	
+	/////////////////////////
+	// 在canvas上渲染一张图片
+	/////////////////////////
+	// var img = new Image();
+	// img.src = 'test_bg.jpg';
+	// img.onload = function() {
+	// 	// 图片加载完后回调
+	// 	pixelInversion();
+	// }
+	
+	/////////
+	// 渲染2
+	/////////
+	var imgUrl = canvas.toDataURL('bg.jpg');
+	console.log(imgUrl)
+
+	// 处理像素反转逻辑
+	function pixelInversion() {
+		
+		// 将图片渲染出来
+		context.drawImage(img,0,0);
+		var img_data = context.getImageData(0,0,800,800);// 取出每一个像素点
+
+		///////////////////////
+		// 将图片反转(反转rgba)
+		///////////////////////
+		// for (var i = 0; i < img_data.data.length; i += 4) {
+		// 	img_data.data[i] = 255 - img_data.data[i];
+		// 	img_data.data[i + 1] = 255 - img_data.data[i + 1];
+		// 	img_data.data[i + 2] = 255 - img_data.data[i + 2];
+		// }
+
+		//////////////////////
+		/// 图片置灰
+		//////////////////////
+		/**
+		 * 置灰算法
+		 * 1.浮点算法：Gray=R0.3+G0.59+B*0.11
+		 * 2.整数方法：Gray=(R30+G59+B*11)/100
+		 * 3.移位方法：Gray =(R76+G151+B*28)>>8;
+		 * 4.平均值法：Gray=（R+G+B）/3;
+		 * 5.仅取绿色：Gray=G；
+		 */
+		for (var i = 0; i < img_data.data.length; i += 4) {
+			var avg = (img_data.data[i] + img_data.data[i + 1] + img_data.data[i + 2]) / 3;
+			img_data.data[i] = img_data.data[i + 1] = img_data.data[i + 2] = avg;
+		}
+
+		// // 把处理后的img data重新赋值填充给原图
+		context.putImageData(img_data,0,0);
+
+		//转换灰度图
+		// var opt = document.createElement('OPTGROUP');
+	 // 	var arr = ["M","N","H","Q","$","O","C","?","7",">","!",":","–",";","."];
+	 // 	var result = [];
+	 // 	for (var i = 0, len = img_data.data.length; i < len; i += 8) {
+	 // 		var avg = (img_data.data[i] + img_data.data[i + 1] + img_data.data[i + 2])/3;
+	 // 	 var num = Math.floor(avg / 18);
+	 // 	 result.push(arr[num]);
+	 // 	   	if(i % 1200 == 0 && i != 0){
+	 // 	        result.push("<br>");
+	 // 	     }
+	 // 	 }
+	 //    opt.innerHTML = result.join();
+	 //    document.body.appendChild(opt);
+	}
+	</script>
+</body>
+</html>

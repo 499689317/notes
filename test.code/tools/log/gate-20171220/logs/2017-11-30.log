@@ -1,0 +1,104 @@
+[32m2017-11-30T00:05:30+0800 <info> login_mgr.js:246 (LoginMgr.visitorLogin) game/all/login[39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:83 (Login.balanceLoad) 0[39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:86 (Login.balanceLoad) [ '101' ][39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:89 (Login.balanceLoad) 0[39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:91 (Login.balanceLoad) 101[39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:157 (Login.getLogicAddress) 负载均衡后分配的服务器id：101[39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:228 (Login.setPlayerData) { rid: '1',
+  acc: '',
+  psw: '',
+  createTime: 1511971530318,
+  loginTime: 1511971530318 }[39m
+[32m2017-11-30T00:05:30+0800 <info> login.js:235 () 账号注册成功[39m
+[32m2017-11-30T00:07:01+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 100服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:07:01+0800 <error> login.js:147 (Login.updateConnection) 未同步成功100[22m[39m
+[32m2017-11-30T00:07:15+0800 <info> login_mgr.js:246 (LoginMgr.visitorLogin) game/all/login[39m
+[32m2017-11-30T00:07:15+0800 <info> login.js:83 (Login.balanceLoad) 0[39m
+[32m2017-11-30T00:07:15+0800 <info> login.js:86 (Login.balanceLoad) [ '101' ][39m
+[32m2017-11-30T00:07:15+0800 <info> login.js:89 (Login.balanceLoad) 0[39m
+[32m2017-11-30T00:07:15+0800 <info> login.js:91 (Login.balanceLoad) 101[39m
+[32m2017-11-30T00:07:15+0800 <info> login.js:157 (Login.getLogicAddress) 负载均衡后分配的服务器id：101[39m
+[32m2017-11-30T00:07:15+0800 <info> login.js:248 (Login.setLoginTime) 1511971635897[39m
+[32m2017-11-30T00:07:15+0800 <info> login_mgr.js:285 (LoginMgr.<anonymous>) { error: 0,
+  data: { rid: '1', hostname: '39.106.101.80', port: 8000 } }[39m
+[32m2017-11-30T00:12:01+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 100服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:12:01+0800 <error> login.js:147 (Login.updateConnection) 未同步成功100[22m[39m
+[32m2017-11-30T00:17:01+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 100服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:17:01+0800 <error> login.js:147 (Login.updateConnection) 未同步成功100[22m[39m
+[32m2017-11-30T00:22:01+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 100服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:22:01+0800 <error> login.js:147 (Login.updateConnection) 未同步成功100[22m[39m
+[32m2017-11-30T00:27:01+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 100服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:27:01+0800 <error> login.js:147 (Login.updateConnection) 未同步成功100[22m[39m
+[32m2017-11-30T00:29:34+0800 <info> app.js:51 (loadDataStatus) ./data/apk_version.json[39m
+[32m2017-11-30T00:29:34+0800 <info> app.js:51 (loadDataStatus) ./data/notice.json[39m
+[32m2017-11-30T00:29:34+0800 <info> app.js:51 (loadDataStatus) ./data/server_list.json[39m
+[32m2017-11-30T00:29:35+0800 <info> db.js:54 (getDbUrl) mongodb://39.106.101.80:27017/gate[39m
+[32m2017-11-30T00:29:35+0800 <info> db.js:17 () 数据库连接成功[39m
+[32m2017-11-30T00:29:35+0800 <info> main.js:19 () 数据库初始化完成[39m
+[32m2017-11-30T00:29:35+0800 <info> login_mgr.js:10 (LoginMgr.init) 初始化登录模块数据[39m
+[32m2017-11-30T00:29:35+0800 <info> proto.js:72 (Server.<anonymous>) 启动http At:3002[39m
+[32m2017-11-30T00:29:35+0800 <info> login_mgr.js:22 (LoginMgr.<anonymous>) [][39m
+[32m2017-11-30T00:29:35+0800 <info> login.js:131 (Login.initServerList) [ { sid: '101', count: 0 } ][39m
+[32m2017-11-30T00:29:35+0800 <info> notice_mgr.js:10 (NoticeMgr.init) 初始化消息广播模块数据[39m
+[32m2017-11-30T00:29:35+0800 <info> app.js:77 () =================================[39m
+[32m2017-11-30T00:29:35+0800 <info> app.js:78 () =================================[39m
+[32m2017-11-30T00:29:35+0800 <info> app.js:79 () =========gate server ok==========[39m
+[32m2017-11-30T00:29:35+0800 <info> app.js:80 () =================================[39m
+[32m2017-11-30T00:29:35+0800 <info> app.js:81 () =================================[39m
+[32m2017-11-30T00:29:53+0800 <info> login_mgr.js:246 (LoginMgr.visitorLogin) game/all/login[39m
+[32m2017-11-30T00:29:53+0800 <info> login.js:83 (Login.balanceLoad) 0[39m
+[32m2017-11-30T00:29:53+0800 <info> login.js:86 (Login.balanceLoad) [ '101' ][39m
+[32m2017-11-30T00:29:53+0800 <info> login.js:89 (Login.balanceLoad) 0[39m
+[32m2017-11-30T00:29:53+0800 <info> login.js:91 (Login.balanceLoad) 101[39m
+[32m2017-11-30T00:29:53+0800 <info> login.js:157 (Login.getLogicAddress) 负载均衡后分配的服务器id：101[39m
+[32m2017-11-30T00:29:53+0800 <info> login.js:248 (Login.setLoginTime) 1511972993720[39m
+[32m2017-11-30T00:29:53+0800 <info> login_mgr.js:285 (LoginMgr.<anonymous>) { error: 0,
+  data: { rid: '1', hostname: '39.106.101.80', port: 8000 } }[39m
+[32m2017-11-30T00:32:01+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 100服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:32:01+0800 <error> login.js:147 (Login.updateConnection) 未同步成功100[22m[39m
+[32m2017-11-30T00:39:54+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:39:54+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T00:44:54+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:44:54+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:51 (loadDataStatus) ./data/apk_version.json[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:51 (loadDataStatus) ./data/notice.json[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:51 (loadDataStatus) ./data/server_list.json[39m
+[32m2017-11-30T00:49:40+0800 <info> db.js:54 (getDbUrl) mongodb://39.106.101.80:27017/gate[39m
+[32m2017-11-30T00:49:40+0800 <info> db.js:17 () 数据库连接成功[39m
+[32m2017-11-30T00:49:40+0800 <info> main.js:19 () 数据库初始化完成[39m
+[32m2017-11-30T00:49:40+0800 <info> login_mgr.js:10 (LoginMgr.init) 初始化登录模块数据[39m
+[32m2017-11-30T00:49:40+0800 <info> proto.js:72 (Server.<anonymous>) 启动http At:3002[39m
+[32m2017-11-30T00:49:40+0800 <info> login_mgr.js:22 (LoginMgr.<anonymous>) [][39m
+[32m2017-11-30T00:49:40+0800 <info> login.js:131 (Login.initServerList) [ { sid: '101', count: 0 } ][39m
+[32m2017-11-30T00:49:40+0800 <info> notice_mgr.js:10 (NoticeMgr.init) 初始化消息广播模块数据[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:77 () =================================[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:78 () =================================[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:79 () =========gate server ok==========[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:80 () =================================[39m
+[32m2017-11-30T00:49:40+0800 <info> app.js:81 () =================================[39m
+[32m2017-11-30T00:52:19+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:52:19+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T00:57:20+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T00:57:20+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T01:02:20+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T01:02:20+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T01:07:20+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T01:07:20+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T01:12:20+0800 <info> login_mgr.js:381 (LoginMgr.updateConnect) 200服务器当前连接人数：0[39m
+[31m[1m2017-11-30T01:12:20+0800 <error> login.js:147 (Login.updateConnection) 未同步成功200[22m[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:51 (loadDataStatus) ./data/apk_version.json[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:51 (loadDataStatus) ./data/notice.json[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:51 (loadDataStatus) ./data/server_list.json[39m
+[32m2017-11-30T01:18:36+0800 <info> db.js:54 (getDbUrl) mongodb://39.106.101.80:27017/gate[39m
+[32m2017-11-30T01:18:36+0800 <info> db.js:17 () 数据库连接成功[39m
+[32m2017-11-30T01:18:36+0800 <info> main.js:19 () 数据库初始化完成[39m
+[32m2017-11-30T01:18:36+0800 <info> login_mgr.js:10 (LoginMgr.init) 初始化登录模块数据[39m
+[32m2017-11-30T01:18:36+0800 <info> proto.js:72 (Server.<anonymous>) 启动http At:3001[39m
+[32m2017-11-30T01:18:36+0800 <info> login_mgr.js:22 (LoginMgr.<anonymous>) [][39m
+[32m2017-11-30T01:18:36+0800 <info> login.js:131 (Login.initServerList) [ { sid: '101', count: 0 } ][39m
+[32m2017-11-30T01:18:36+0800 <info> notice_mgr.js:10 (NoticeMgr.init) 初始化消息广播模块数据[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:77 () =================================[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:78 () =================================[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:79 () =========gate server ok==========[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:80 () =================================[39m
+[32m2017-11-30T01:18:36+0800 <info> app.js:81 () =================================[39m

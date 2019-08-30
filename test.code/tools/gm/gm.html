@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>gm工具</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<h3 align="center">gm工具</h3>
+	<input id="ip" type="text" name="ip地址">
+	<hr />
+	<!-- 查询玩家信息 -->
+	<input id="id1" type="text" name="协议id">
+	<input id="data1" type="text" name="协议数据">
+	<button id="button1" type="button">玩家基本信息</button>
+	<hr />
+
+	<hr />
+	<!-- 查询玩家背包 -->
+	<input id="id2" type="text" name="协议id">
+	<input id="data2" type="text" name="协议数据">
+	<input id="data2_list" type="text" name="协议数据">
+	<button id="button2" type="button">玩家背包</button>
+	<hr />
+
+	<hr />
+	<!-- 查询玩家关卡 -->
+	<input id="id3" type="text" name="协议id">
+	<input id="data3" type="text" name="协议数据">
+	<button id="button3" type="button">玩家关卡信息</button>
+	<hr />
+
+	<hr />
+	<!-- 查询玩家其它 -->
+	<input id="id4" type="text" name="协议id">
+	<input id="data4" type="text" name="协议数据">
+	<button id="button4" type="button">玩家其它信息</button>
+	<hr />
+
+	<script type="text/javascript">
+
+		// 获取连接URL
+		function getURL() {
+
+			var ip = document.getElementById("ip").value;
+			if (!ip) {
+				ip = "192.168.1.114";
+			}
+			var url = "http://" + ip + ":" + "5000" + "/";
+			console.log(url);
+			return url;
+		};
+
+		function sendHttpRequest(msg, cb) {
+
+			if (!msg || !msg.type || !msg.url || !msg.path) {
+				console.log("参数错误")
+				return;
+			};
+			var type = msg.type;
+			var url = msg.url + msg.path;
+			var data = msg.data;
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open(type, url, true);
+			xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+			xhr.onreadystatechange = function() {
+				if (4 == xhr.readyState) {
+					if (200 <= xhr.status && 400 > xhr.status) {
+						var message = JSON.parse(xhr.response);
+						cb && cb(message);
+					}
+				};
+			};
+			// 监听错误请求
+			xhr.onerror = function() {
+				console.log("http error", xhr.status);
+			};
+			xhr.ontimeout = function() {
+				console.log("http timeout");
+			};
+			xhr.send(data);
+		};
+
+
+
+		// 创建表格
+		var g_table1 = null;
+		function createTable(title, info, map) {
+
+			cleanTable();
+			cleanTable2();
+			if (!info || !map) {
+				console.log("没有表格数据");
+				return;
+			}
+
+			var table = g_table1 = document.createElement("table");
+			document.body.appendChild(table);
+
+			table.width = 700;
+			table.border = 1;
+			
+			// 标题
+			var caption = document.createElement("caption");
+		    table.appendChild(caption);
+		    caption.innerHTML = title || "表格标题";
+
+		    var tr = document.createElement("tr");
+		    table.appendChild(tr);
+
+		    var th = document.createElement("th");
+		    tr.appendChild(th);
+		    th.innerHTML = "玩家字段";
+		    var th = document.createElement("th");
+		    tr.appendChild(th);
+		    th.innerHTML = "值";
+
+		    // 表内容
+		    for(var key in info) {
+
+		    	var tr = document.createElement("tr");
+		    	table.appendChild(tr);
+
+		    	var td = document.createElement("td");
+		    	tr.appendChild(td);
+		    	td.innerHTML = map[key] || key;
+
+		    	var td = document.createElement("td");
+		    	tr.appendChild(td);
+		    	td.innerHTML = info[key];
+		    }
+		};
+		function cleanTable() {
+			if (g_table1) {
+				document.body.removeChild(g_table1);
+				g_table1 = null;
+			}
+		};
+		var g_table2 = null;
+		function createTable2(title, info, map, map1, map2) {
+
+			cleanTable();
+			cleanTable2();
+			if (!info || !map || !map1 || !map2) {
+				console.log("没有表格数据");
+				return;
+			}
+
+			var table = g_table2 = document.createElement("table");
+			document.body.appendChild(table);
+
+			table.width = 1024;
+			table.border = 1;
+			
+			// 标题
+			var caption = document.createElement("caption");
+		    table.appendChild(caption);
+		    caption.innerHTML = title || "关卡详情";
+
+		    function getTypeBySid(id) {
+				id = id + "";
+				return id.substring(2, 3);
+			}
+			function getCountById(id) {
+				id = id + "";
+				return parseInt(id.substring(3, id.length) );
+			}
+			function calcPass(data) {
+				return data.oneStar + data.twoStar + data.threeStar;
+			}
+			var elems = {};
+			for(var key in map) {
+
+				var th = document.createElement("th");// 横向排列
+			    table.appendChild(th);
+			    th.innerHTML = map[key] || key;
+			    elems[key] = th;
+			}
+			for(var sid in info) {
+
+				var type = map1[getTypeBySid(sid)];
+				var chapter = map2[getCountById(sid)];
+				for(var id in info[sid]) {
+
+					var count = getCountById(id);
+					var des = type + chapter + "第" + count + "关卡";
+					info[sid][id].des = des;
+					info[sid][id].pass = calcPass(info[sid][id]);
+					for(var key in info[sid][id]) {
+						// 表内容
+						if (elems[key]) {
+							var tr = document.createElement("tr");// 纵向排列
+		    				table.appendChild(tr);
+		    				elems[key].appendChild(tr);
+							var td = document.createElement("td");
+					    	tr.appendChild(td);
+					    	td.innerHTML = info[sid][id][key];
+						}
+				    }
+				}
+			}
+		};
+		function cleanTable2() {
+			if (g_table2) {
+				document.body.removeChild(g_table2);
+				g_table2 = null;
+			}
+		};
+		// 时间戳转换
+		function getDateTime(time) {
+
+			if (!time) {
+				return 0;
+			}
+			var dateTime = new Date(time);
+			var year = dateTime.getFullYear();
+			var month = dateTime.getMonth() + 1;
+			var date = dateTime.getDate();
+			var hour = dateTime.getHours();
+			var minu = dateTime.getMinutes();
+			var sec =  dateTime.getSeconds();
+			return year + "/" + month + "/" + date + "/" + hour + ":" + minu + ":" + sec;
+		};
+		
+		// 查找玩家信息
+		var id1 = document.getElementById("id1");
+		var data1 = document.getElementById("data1");
+		id1.value = "gm/player/info";
+		data1.value = '{"rid": 1}';
+		document.getElementById("button1").onclick = function() {
+			
+			var opt = {
+				type: "post",
+				url: getURL(),
+				path: id1.value,
+				data: data1.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+				console.log(msg)
+				if (msg.error == 0) {
+					showPlayerInfo(msg.data);
+				}
+			});
+		};
+		function showPlayerInfo(data) {
+			var list = data;
+			if (!list || !list.length) {
+				return;
+			}
+
+			// 玩家每一个字段代表什么意思
+			var map = {
+				rid: "角色id",
+				acc: "账号",
+				name: "昵称",
+				isLine: "是否在线",
+				gold: "金币",
+				jewel: "钻石",
+				createTime: "创建玩家时间",
+				loginTime: "最近登录时间",
+				offTime: "最近下线时间"
+			};
+			for (var i = 0; i < list.length; i++) {
+				var info = {};
+				for(var key in list[i]) {
+					if (key == "createTime" || key == "loginTime" || key == "offTime") {
+						info[key] = getDateTime(list[i][key]);
+					} else {
+						info[key] = list[i][key];
+					}
+				}
+				createTable("玩家基本信息", info, map);
+			}
+		};
+
+
+
+		// 背包
+		var id2 = document.getElementById("id2");
+		var data2 = document.getElementById("data2");
+		var data2_list = document.getElementById("data2_list");
+		id2.value = "gm/player/item";
+		data2.value = '{"rid": 1}';
+		data2_list.value = '[{"iid": 10000001, "num": 1}]';
+		document.getElementById("button2").onclick = function() {
+			
+			var d = JSON.parse(data2.value);
+			d.list = JSON.parse(data2_list.value);
+
+			var opt = {
+				type: "post",
+				url: getURL(),
+				path: id2.value,
+				data: JSON.stringify(d),
+			};
+			sendHttpRequest(opt, function(msg) {
+				console.log(msg)
+				if (msg.error == 0) {
+					alert("添加成功" + msg.state);
+				}
+			});
+		};
+		
+
+
+		// 关卡
+		var id3 = document.getElementById("id3");
+		var data3 = document.getElementById("data3");
+		id3.value = "gm/player/level";
+		data3.value = '{"rid": 1}';
+		document.getElementById("button3").onclick = function() {
+			
+			var opt = {
+				type: "post",
+				url: getURL(),
+				path: id3.value,
+				data: data3.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+				console.log(msg)
+				if (msg.error == 0) {
+					showPlayerLevel(msg.data);
+				}
+			});
+		};
+		function showPlayerLevel(data) {
+			if (!data) {
+				return;
+			}
+			var map = {
+				des: "单个关卡描述",
+				id: "关卡id",
+				type: "关卡类型",
+				time: "最短通关时间",
+				star: "通关最大星数",
+				total: "挑战总次数",
+				pass: "通关总次数",
+				oneStar: "1星通关次数",
+				twoStar: "2星通关次数",
+				threeStar: "3星通关次数",
+			};
+			var map1 = {
+				1: "简单",
+				2: "普通",
+				3: "困难",
+			};
+			var map2 = {
+				1: "第1章节",
+				2: "第2章节",
+				3: "第3章节",
+				4: "第4章节",
+				5: "第5章节",
+				6: "第6章节",
+				7: "第7章节",
+				8: "第8章节",
+				9: "第9章节",
+				10: "第10章节",
+			};
+			var levels = data.levels;
+			createTable2("玩家关卡信息", levels, map, map1, map2);
+		}
+
+		// 其它
+		var id4 = document.getElementById("id4");
+		var data4 = document.getElementById("data4");
+		id4.value = "gm/statis/info";
+		data4.value = '{"rid": 1}';
+		document.getElementById("button4").onclick = function() {
+			
+			var opt = {
+				type: "post",
+				url: getURL(),
+				path: id4.value,
+				data: data4.value,
+			};
+			sendHttpRequest(opt, function(msg) {
+				console.log(msg)
+				if (msg.error == 0) {
+					showPlayerStatis(msg.data);
+				}
+			});
+		};
+		function showPlayerStatis(data) {
+			if (!data) {
+				return;
+			}
+			var statis = {
+				pveDayTotal: data.pveDayTotal,
+				pveDayWin: data.pveDayWin,
+				pveDayStar: data.pveDayStar,
+				pveDayTime: data.pveDayTime,
+			};
+			var map = {
+				pveDayTotal: "每日挑战总次数",
+				pveDayWin: "每日挑战通关次数",
+				pveDayStar: "每日挑战获得总星数",
+				pveDayTime: "每日挑战通关最短时间",
+			};
+			createTable("玩家其它统计数据", statis, map);
+		}
+	</script>
+</body>
+</html>

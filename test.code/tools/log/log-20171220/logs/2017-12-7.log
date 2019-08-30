@@ -1,0 +1,68 @@
+2017-12-07T00:45:11+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T14:10:04+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T14:10:04+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T14:37:04+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T14:48:24+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T15:02:10+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T16:11:25+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T16:35:50+0800 <error> proto.js:46 (IncomingMessage.<anonymous>) TypeError: collection.findOne(...).toArray is not a function
+    at Object.Route.findOne (/app/data/node/lib/db_api.js:114:31)
+    at Gm.getOnline (/app/data/src/class/gm.js:47:11)
+    at GmMgr.getOnline (/app/data/src/manager/gm_mgr.js:74:10)
+    at Object.route.get/online (/app/data/route.js:35:18)
+    at IncomingMessage.<anonymous> (/app/data/node/lib/proto.js:44:36)
+    at emitNone (events.js:86:13)
+    at IncomingMessage.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+2017-12-07T16:56:42+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T18:25:17+0800 <error> proto.js:46 (IncomingMessage.<anonymous>) TypeError: Cannot convert object to primitive value
+    at Object.parse (native)
+    at GmMgr.getPlayerLogin (/app/data/src/manager/gm_mgr.js:43:14)
+    at Object.route.get/player/login (/app/data/route.js:32:18)
+    at IncomingMessage.<anonymous> (/app/data/node/lib/proto.js:44:36)
+    at emitNone (events.js:86:13)
+    at IncomingMessage.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+2017-12-07T18:39:31+0800 <error> proto.js:46 (IncomingMessage.<anonymous>) TypeError: Cannot read property 'promiseLibrary' of undefined
+    at Object.Collection.findOne (/app/node_modules/mongodb/lib/collection.js:1404:20)
+    at Object.Route.findOne (/app/data/node/lib/db_api.js:69:24)
+    at Gm.getOnline (/app/data/src/class/gm.js:47:11)
+    at GmMgr.getOnline (/app/data/src/manager/gm_mgr.js:72:10)
+    at Object.route.get/online (/app/data/route.js:35:18)
+    at IncomingMessage.<anonymous> (/app/data/node/lib/proto.js:44:36)
+    at emitNone (events.js:86:13)
+    at IncomingMessage.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+2017-12-07T18:40:36+0800 <error> proto.js:46 (IncomingMessage.<anonymous>) TypeError: Cannot read property 'promiseLibrary' of undefined
+    at Object.Collection.findOne (/app/node_modules/mongodb/lib/collection.js:1404:20)
+    at Object.Route.findOne (/app/data/node/lib/db_api.js:69:24)
+    at Gm.getOnline (/app/data/src/class/gm.js:47:11)
+    at GmMgr.getOnline (/app/data/src/manager/gm_mgr.js:72:10)
+    at Object.route.get/online (/app/data/route.js:35:18)
+    at IncomingMessage.<anonymous> (/app/data/node/lib/proto.js:44:36)
+    at emitNone (events.js:86:13)
+    at IncomingMessage.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+2017-12-07T18:40:37+0800 <error> proto.js:46 (IncomingMessage.<anonymous>) TypeError: Cannot read property 'promiseLibrary' of undefined
+    at Object.Collection.findOne (/app/node_modules/mongodb/lib/collection.js:1404:20)
+    at Object.Route.findOne (/app/data/node/lib/db_api.js:69:24)
+    at Gm.getOnline (/app/data/src/class/gm.js:47:11)
+    at GmMgr.getOnline (/app/data/src/manager/gm_mgr.js:72:10)
+    at Object.route.get/online (/app/data/route.js:35:18)
+    at IncomingMessage.<anonymous> (/app/data/node/lib/proto.js:44:36)
+    at emitNone (events.js:86:13)
+    at IncomingMessage.emit (events.js:185:7)
+    at endReadableNT (_stream_readable.js:974:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+2017-12-07T19:51:07+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T19:51:07+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T19:51:22+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T19:51:22+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T21:38:43+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
+2017-12-07T23:40:47+0800 <error> detail_log_mgr.js:32 (DetailLogMgr.updateLogData) 参数错误
